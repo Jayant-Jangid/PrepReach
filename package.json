@@ -1,5 +1,11 @@
 {
   "name": "prepreach",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel dev",
+    "build": "pnpm --parallel build",
+    "lint": "pnpm --parallel lint",
+    "test": "pnpm --parallel test"
+  }
 }
