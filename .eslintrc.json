@@ -1,0 +1,13 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    ".next",
+    "build"
+  ],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off"
+  }
+}
