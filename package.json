@@ -7,5 +7,6 @@
     "build": "pnpm --parallel build",
     "lint": "pnpm --parallel lint",
     "test": "pnpm --parallel test"
-  }
+  },
+  "packageManager": "pnpm@9.15.4"
 }
