@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm --parallel dev",
+    "dev": "concurrently \"pnpm dev:server\" \"pnpm dev:web\"",
     "build": "pnpm --parallel build",
     "lint": "pnpm --parallel lint",
     "test": "pnpm --parallel test",
     "clean": "rimraf node_modules .next dist build coverage apps/*/node_modules apps/*/.next apps/*/dist",
     "clean:workspaces": "rimraf apps/*/.next apps/*/dist apps/*/build packages/*/dist",
-    "clean:all": "pnpm clean && pnpm clean:workspaces"
+    "clean:all": "pnpm clean && pnpm clean:workspaces",
+    "dev:server": "pnpm --filter server dev",
+    "dev:web": "pnpm --filter web dev",
+    "build:web": "pnpm --filter web build"
   },
   "packageManager": "pnpm@9.15.4",
   "engines": {
@@ -17,6 +20,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.0.1",
+    "concurrently": "^9.1.0"
   }
 }
