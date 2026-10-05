@@ -73,4 +73,6 @@ courseSchema.pre('save', function (next) {
   next();
 });
 
+courseSchema.index({ title: 'text', description: 'text', tags: 'text' });
+
 module.exports = mongoose.model('Course', courseSchema);
