@@ -69,6 +69,14 @@ const courseSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+courseSchema.pre('findOneAndDelete', async function (next) {
+  const doc = await this.model.findOne(this.getQuery());
+  if (doc) {
+    await mongoose.model('Module').deleteMany({ course: doc._id });
+  }
+  next();
+});
+
 courseSchema.pre('save', function (next) {
   if (this.isModified('title') || this.isNew) {
     const base = this.title
