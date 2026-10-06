@@ -31,6 +31,7 @@ const courseSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'Price is required'],
       min: [0, 'Price cannot be negative'],
+      max: [50000, 'Price cannot exceed 50,000 INR'],
     },
     thumbnail: {
       type: String,
