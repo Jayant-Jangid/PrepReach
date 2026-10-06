@@ -58,6 +58,14 @@ const moduleSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'Module order is required'],
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
     lectures: {
       type: [lectureSchema],
       default: [],
