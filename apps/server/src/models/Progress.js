@@ -42,4 +42,8 @@ const progressSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// High-frequency query indexes for progress dashboard
+progressSchema.index({ student: 1, course: 1 });
+progressSchema.index({ student: 1, lectureId: 1 }, { unique: true });
+
 module.exports = mongoose.model('Progress', progressSchema);
