@@ -83,4 +83,17 @@ courseSchema.pre('save', function (next) {
 
 courseSchema.index({ title: 'text', description: 'text', tags: 'text' });
 
+courseSchema.virtual('modules', {
+  ref: 'Module',
+  localField: '_id',
+  foreignField: 'course',
+});
+
+courseSchema.virtual('enrollmentsCount', {
+  ref: 'Enrollment',
+  localField: '_id',
+  foreignField: 'course',
+  count: true,
+});
+
 module.exports = mongoose.model('Course', courseSchema);
