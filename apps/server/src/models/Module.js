@@ -15,6 +15,13 @@ const lectureSchema = new mongoose.Schema(
     videoUrl: {
       type: String,
       default: '',
+      validate: {
+        validator: function(v) {
+          if (!v) return true;
+          return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|player\.vimeo\.com)\/.+/.test(v);
+        },
+        message: 'videoUrl must be a valid YouTube or Vimeo streaming URL'
+      }
     },
     materialUrl: {
       type: String,
