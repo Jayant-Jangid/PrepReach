@@ -1,5 +1,6 @@
 require('./config/env');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
@@ -30,6 +31,7 @@ app.use(
 // Body parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get('/health', (req, res) => {
   res.json({ success: true, message: 'PrepReach API is active' });
