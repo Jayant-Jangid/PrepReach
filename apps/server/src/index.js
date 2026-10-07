@@ -1,11 +1,13 @@
 require('./config/env');
 const express = require('express');
+const helmet = require('helmet');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
 const app = express();
+app.use(helmet());
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = process.env.CLIENT_URL
