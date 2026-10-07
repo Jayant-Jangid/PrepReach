@@ -1,22 +1,34 @@
+require('./config/env');
 const express = require('express');
+const cors = require('cors');
 const connectDB = require('./config/db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map((s) => s.trim())
+  : ['http://localhost:3000'];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('localhost')
+      ) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Origin ${origin} not allowed by CORS`));
+    },
+    credentials: true,
+  })
+);
+
 app.get('/health', (req, res) => {
   res.json({ success: true, message: 'PrepReach API is active' });
 });
-
-const start = async () => {
-  await connectDB();
-  app.listen(PORT, () => {
-    console.log(`[server] PrepReach API running on port ${PORT}`);
-  });
-};
-
-if (require.main === module) {
-  start();
-}
 
 module.exports = app;
