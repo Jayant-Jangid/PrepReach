@@ -56,3 +56,21 @@ module.exports = app;
 const { notFound, errorHandler } = require('./middleware/error.middleware');
 app.use(notFound);
 app.use(errorHandler);
+
+const server = app.listen(PORT, () => {
+  console.log(`[server] PrepReach API running on port ${PORT}`);
+});
+
+const gracefulShutdown = (signal) => {
+  console.log(`[server] ${signal} signal received. Closing HTTP server gracefully...`);
+  server.close(async () => {
+    console.log('[server] HTTP server closed.');
+    const mongoose = require('mongoose');
+    await mongoose.connection.close(false);
+    console.log('[db] MongoDB connection closed.');
+    process.exit(0);
+  });
+};
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
