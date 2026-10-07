@@ -27,6 +27,10 @@ app.use(
   })
 );
 
+// Body parsers
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/health', (req, res) => {
   res.json({ success: true, message: 'PrepReach API is active' });
 });
