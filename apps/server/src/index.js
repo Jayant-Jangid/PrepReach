@@ -1,6 +1,7 @@
 require('./config/env');
 const express = require('express');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -8,6 +9,15 @@ const connectDB = require('./config/db');
 
 const app = express();
 app.use(helmet());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many requests. Please try again later.' },
+});
+app.use(limiter);
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = process.env.CLIENT_URL
