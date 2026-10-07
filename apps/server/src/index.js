@@ -47,8 +47,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
-app.get('/health', (req, res) => {
-  res.json({ success: true, message: 'PrepReach API is active' });
-});
+const apiRoutes = require('./routes');
+app.use('/api/v1', apiRoutes);
+app.use('/api', apiRoutes);
 
 module.exports = app;
