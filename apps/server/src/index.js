@@ -1,5 +1,6 @@
 require('./config/env');
 const express = require('express');
+const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -32,6 +33,7 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 app.get('/health', (req, res) => {
   res.json({ success: true, message: 'PrepReach API is active' });
