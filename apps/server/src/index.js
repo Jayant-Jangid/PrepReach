@@ -52,3 +52,6 @@ app.use('/api/v1', apiRoutes);
 app.use('/api', apiRoutes);
 
 module.exports = app;
+
+const { errorHandler } = require('./middleware/error.middleware');
+app.use(errorHandler);
