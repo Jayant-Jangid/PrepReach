@@ -51,6 +51,8 @@ const sanitizeNoSQL = require('./middleware/sanitize.middleware');
 app.use(sanitizeNoSQL);
 const xssMiddleware = require('./middleware/xss.middleware');
 app.use(xssMiddleware);
+const hppMiddleware = require('./middleware/hpp.middleware');
+app.use(hppMiddleware);
 app.use(cookieParser());
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
