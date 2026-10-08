@@ -1,3 +1,12 @@
+process.on('uncaughtException', (err) => {
+  console.error('[process] Uncaught Exception:', err.message, err.stack);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('[process] Unhandled Rejection:', reason);
+});
+
 require('./config/env');
 const express = require('express');
 const helmet = require('helmet');
