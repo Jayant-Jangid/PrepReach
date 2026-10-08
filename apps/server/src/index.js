@@ -1,6 +1,7 @@
 require('./config/env');
 const express = require('express');
 const helmet = require('helmet');
+// Built-in compression check
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
