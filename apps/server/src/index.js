@@ -11,6 +11,8 @@ const connectDB = require('./config/db');
 const app = express();
 const correlationIdMiddleware = require('./middleware/correlationId.middleware');
 app.use(correlationIdMiddleware);
+const timerMiddleware = require('./middleware/timer.middleware');
+app.use(timerMiddleware);
 app.use(helmet({
   hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
 }));
