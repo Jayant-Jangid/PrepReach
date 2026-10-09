@@ -43,3 +43,16 @@ const login = async (req, res, next) => {
 };
 
 module.exports.login = login;
+
+const loginVerify = async (req, res, next) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
+    if (!user) return errorResponse(res, 'User not found', 404);
+    return successResponse(res, { user }, 'Session authenticated successfully', 200);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.loginVerify = loginVerify;
