@@ -70,3 +70,14 @@ const refreshToken = async (req, res, next) => {
 };
 
 module.exports.refreshToken = refreshToken;
+
+const logout = async (req, res, next) => {
+  try {
+    res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production' });
+    return successResponse(res, null, 'Logged out successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.logout = logout;
