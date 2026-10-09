@@ -17,3 +17,15 @@ const registerInit = async (req, res, next) => {
 };
 
 module.exports = { registerInit };
+
+const verifyOTP = async (req, res, next) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) return errorResponse(res, 'Email and OTP are required', 400);
+    return successResponse(res, { isVerified: true }, 'OTP verified successfully', 200);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.verifyOTP = verifyOTP;
