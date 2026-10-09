@@ -29,3 +29,17 @@ const verifyOTP = async (req, res, next) => {
 };
 
 module.exports.verifyOTP = verifyOTP;
+
+const login = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    if (!email) return errorResponse(res, 'Email is required', 400);
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
+    if (!user) return errorResponse(res, 'No account associated with this email', 404);
+    return successResponse(res, null, 'Login verification code sent to your email', 200);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.login = login;
