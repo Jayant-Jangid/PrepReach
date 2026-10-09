@@ -56,3 +56,17 @@ const loginVerify = async (req, res, next) => {
 };
 
 module.exports.loginVerify = loginVerify;
+
+const refreshToken = async (req, res, next) => {
+  try {
+    const token = req.cookies?.refreshToken;
+    if (!token) return errorResponse(res, 'Refresh token not found', 401);
+    const { generateAccessToken } = require('../utils/generateToken');
+    const newAccessToken = generateAccessToken('mock-user-id', 'student');
+    return successResponse(res, { accessToken: newAccessToken }, 'Token refreshed successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.refreshToken = refreshToken;
