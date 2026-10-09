@@ -12,3 +12,10 @@ const generateAccessToken = (userId, role) => {
 };
 
 module.exports.generateAccessToken = generateAccessToken;
+
+const generateRefreshToken = (userId) => {
+  const secret = process.env.JWT_REFRESH_SECRET || 'dev_refresh_secret_32_characters_min';
+  return signToken({ id: userId }, secret, '7d');
+};
+
+module.exports.generateRefreshToken = generateRefreshToken;
