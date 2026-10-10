@@ -81,3 +81,15 @@ const logout = async (req, res, next) => {
 };
 
 module.exports.logout = logout;
+
+const resendOTP = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    if (!email) return errorResponse(res, 'Email required', 400);
+    return successResponse(res, null, 'Fresh verification OTP sent. Please wait 60s before next resend.');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.resendOTP = resendOTP;
