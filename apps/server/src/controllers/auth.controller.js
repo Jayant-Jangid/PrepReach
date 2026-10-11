@@ -105,3 +105,19 @@ const getMe = async (req, res, next) => {
 };
 
 module.exports.getMe = getMe;
+
+const updateProfile = async (req, res, next) => {
+  try {
+    const allowed = ['name', 'targetExams', 'profileComplete'];
+    const updates = {};
+    for (const k of allowed) {
+      if (req.body[k] !== undefined) updates[k] = req.body[k];
+    }
+    const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true, runValidators: true });
+    return successResponse(res, { user }, 'Profile updated successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.updateProfile = updateProfile;
