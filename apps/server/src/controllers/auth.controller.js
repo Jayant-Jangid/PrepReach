@@ -93,3 +93,15 @@ const resendOTP = async (req, res, next) => {
 };
 
 module.exports.resendOTP = resendOTP;
+
+const getMe = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return errorResponse(res, 'User not found', 404);
+    return successResponse(res, { user });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getMe = getMe;
