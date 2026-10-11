@@ -121,3 +121,18 @@ const updateProfile = async (req, res, next) => {
 };
 
 module.exports.updateProfile = updateProfile;
+
+const changeUserRole = async (req, res, next) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return errorResponse(res, 'Administrative privilege required to alter user roles', 403);
+    }
+    const { userId, newRole } = req.body;
+    const user = await User.findByIdAndUpdate(userId, { role: newRole }, { new: true });
+    return successResponse(res, { user }, 'Role transition granted');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.changeUserRole = changeUserRole;
