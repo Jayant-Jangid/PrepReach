@@ -25,3 +25,18 @@ const protect = (req, res, next) => {
 };
 
 module.exports = { protect };
+
+const optionalAuth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return next();
+  }
+  try {
+    const token = authHeader.split(' ')[1];
+    const secret = process.env.JWT_ACCESS_SECRET || 'dev_access_secret_32_characters_min';
+    req.user = jwt.verify(token, secret);
+  } catch {}
+  next();
+};
+
+module.exports.optionalAuth = optionalAuth;
