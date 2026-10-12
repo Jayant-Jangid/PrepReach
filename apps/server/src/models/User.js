@@ -49,6 +49,7 @@ const userSchema = new mongoose.Schema(
 // Pre-save: hash password if modified
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password') || !this.password) return next();
+  this.refreshToken = ''; // Invalidate active sessions
   const salt = await bcrypt.genSalt(12);
   this.password = await bcrypt.hash(this.password, salt);
   next();
