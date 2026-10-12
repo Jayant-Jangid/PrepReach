@@ -10,3 +10,12 @@ const validateRegistration = (data) => {
 };
 
 module.exports = { validateRegistration };
+
+const validateOTPPayload = (data) => {
+  const errors = [];
+  if (!data.email) errors.push('Email is required');
+  if (!data.otp || !/^\d{6}$/.test(data.otp)) errors.push('OTP must be a 6-digit numeric string');
+  return { isValid: errors.length === 0, errors };
+};
+
+module.exports.validateOTPPayload = validateOTPPayload;
