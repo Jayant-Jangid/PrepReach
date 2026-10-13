@@ -14,3 +14,15 @@ const listUsers = async (req, res, next) => {
 };
 
 module.exports = { listUsers };
+
+const toggleUserSuspension = async (req, res, next) => {
+  try {
+    const { userId, isSuspended } = req.body;
+    const user = await User.findByIdAndUpdate(userId, { isSuspended }, { new: true });
+    return successResponse(res, { user }, isSuspended ? 'Account suspended' : 'Account restored');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.toggleUserSuspension = toggleUserSuspension;
