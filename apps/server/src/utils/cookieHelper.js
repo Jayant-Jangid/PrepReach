@@ -7,3 +7,10 @@ const getRefreshCookieOptions = () => ({
 });
 
 module.exports = { getRefreshCookieOptions };
+
+const getSubdomainCookieOptions = (domain) => ({
+  ...getRefreshCookieOptions(),
+  domain: domain ? `.${domain}` : undefined,
+});
+
+module.exports.getSubdomainCookieOptions = getSubdomainCookieOptions;
