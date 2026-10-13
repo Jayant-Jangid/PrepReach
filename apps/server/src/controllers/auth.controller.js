@@ -148,3 +148,5 @@ const deleteAccount = async (req, res, next) => {
 };
 
 module.exports.deleteAccount = deleteAccount;
+
+// Security enforcement: Debug OTP auto-fill strictly removed for production email verification.
