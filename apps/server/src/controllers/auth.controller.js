@@ -136,3 +136,15 @@ const changeUserRole = async (req, res, next) => {
 };
 
 module.exports.changeUserRole = changeUserRole;
+
+const deleteAccount = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.user.id, { isDeleted: true, deletedAt: new Date(), refreshToken: '' });
+    res.clearCookie('refreshToken');
+    return successResponse(res, null, 'Account deleted successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deleteAccount = deleteAccount;
