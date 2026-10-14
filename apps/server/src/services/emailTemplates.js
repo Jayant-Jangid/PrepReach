@@ -36,3 +36,14 @@ const getWelcomeTemplate = (name) => {
 };
 
 module.exports.getWelcomeTemplate = getWelcomeTemplate;
+
+const getEnrollmentTemplate = (userName, courseTitle, courseUrl) => {
+  const content = `
+    <h2 style="color:#1A1A2E;">Enrollment Confirmed!</h2>
+    <p>Hi ${userName}, you are now enrolled in <strong>${courseTitle}</strong>.</p>
+    <a href="${courseUrl}" style="display:inline-block;background:#B85324;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;">Go to Course</a>
+  `;
+  return baseWrapper(content);
+};
+
+module.exports.getEnrollmentTemplate = getEnrollmentTemplate;
