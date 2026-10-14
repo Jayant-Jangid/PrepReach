@@ -47,3 +47,9 @@ const getEnrollmentTemplate = (userName, courseTitle, courseUrl) => {
 };
 
 module.exports.getEnrollmentTemplate = getEnrollmentTemplate;
+
+const getPasswordlessLoginTemplate = (otp) => {
+  return getOTPTemplate(otp, 'Login');
+};
+
+module.exports.getPasswordlessLoginTemplate = getPasswordlessLoginTemplate;
