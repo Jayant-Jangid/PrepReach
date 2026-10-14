@@ -18,3 +18,14 @@ const initSMTPTransport = () => {
 };
 
 module.exports = { initSMTPTransport };
+
+const sgMail = require('@sendgrid/mail');
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
+
+const sendViaSendGrid = async ({ to, from, subject, html, text }) => {
+  return sgMail.send({ to, from, subject, html, text });
+};
+
+module.exports.sendViaSendGrid = sendViaSendGrid;
