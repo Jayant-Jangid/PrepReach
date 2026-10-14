@@ -53,3 +53,13 @@ const getPasswordlessLoginTemplate = (otp) => {
 };
 
 module.exports.getPasswordlessLoginTemplate = getPasswordlessLoginTemplate;
+
+const getPlainTextFallback = (subject, bodyText) => {
+  return `PrepReach — ${subject}
+
+${bodyText}
+
+© ${new Date().getFullYear()} PrepReach. All rights reserved.`;
+};
+
+module.exports.getPlainTextFallback = getPlainTextFallback;
