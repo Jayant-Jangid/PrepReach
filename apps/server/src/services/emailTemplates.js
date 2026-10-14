@@ -26,3 +26,13 @@ const getOTPTemplate = (otp, purpose = 'Verification') => {
 };
 
 module.exports = { baseWrapper, getOTPTemplate };
+
+const getWelcomeTemplate = (name) => {
+  const content = `
+    <h2 style="color:#1A1A2E;">Welcome to PrepReach, ${name}!</h2>
+    <p style="color:#524C73;">Your account has been successfully verified. Explore our regional government exam bootcamps today.</p>
+  `;
+  return baseWrapper(content);
+};
+
+module.exports.getWelcomeTemplate = getWelcomeTemplate;
