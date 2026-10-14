@@ -63,3 +63,14 @@ ${bodyText}
 };
 
 module.exports.getPlainTextFallback = getPlainTextFallback;
+
+const getCourseUpdateTemplate = (courseName, updateDetails) => {
+  const content = `
+    <h2>New Updates in ${courseName}</h2>
+    <p>${updateDetails}</p>
+    <p>Check the newly added lectures in your dashboard.</p>
+  `;
+  return baseWrapper(content);
+};
+
+module.exports.getCourseUpdateTemplate = getCourseUpdateTemplate;
