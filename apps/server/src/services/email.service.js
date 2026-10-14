@@ -45,3 +45,9 @@ const sendEmailWithFallback = async (payload) => {
 };
 
 module.exports.sendEmailWithFallback = sendEmailWithFallback;
+
+const logDispatchResult = (to, messageId, status) => {
+  console.log(`[email:dispatch] Message to ${to} delivered with ID: ${messageId || 'MOCK'} | Status: ${status}`);
+};
+
+module.exports.logDispatchResult = logDispatchResult;
