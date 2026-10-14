@@ -29,3 +29,19 @@ const sendViaSendGrid = async ({ to, from, subject, html, text }) => {
 };
 
 module.exports.sendViaSendGrid = sendViaSendGrid;
+
+const sendEmailWithFallback = async (payload) => {
+  if (process.env.SENDGRID_API_KEY) {
+    try {
+      return await sendViaSendGrid(payload);
+    } catch (err) {
+      console.warn('[email:fallback] SendGrid failed, falling back to SMTP...', err.message);
+    }
+  }
+  if (smtpTransporter) {
+    return smtpTransporter.sendMail(payload);
+  }
+  console.log('[email:mock] Email dispatched locally:', payload.to, payload.subject);
+};
+
+module.exports.sendEmailWithFallback = sendEmailWithFallback;
