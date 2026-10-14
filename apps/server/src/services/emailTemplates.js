@@ -6,7 +6,7 @@ const baseWrapper = (content) => `
 <html>
 <body style="font-family:'Segoe UI',sans-serif;background:#F8F9FA;padding:24px;margin:0;">
   <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
-    <table width="560" style="background:#ffffff;border-radius:10px;padding:32px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+    <table width="100%" style="max-width:560px;margin:0 auto;" style="background:#ffffff;border-radius:10px;padding:32px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
       <tr><td style="color:${PRIMARY};font-size:24px;font-weight:700;padding-bottom:16px;">PrepReach</td></tr>
       <tr><td>${content}</td></tr>
     </table>
