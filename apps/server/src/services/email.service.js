@@ -51,3 +51,10 @@ const logDispatchResult = (to, messageId, status) => {
 };
 
 module.exports.logDispatchResult = logDispatchResult;
+
+const getSenderConfig = () => ({
+  from: `"${process.env.SENDGRID_FROM_NAME || 'PrepReach Desk'}" <${process.env.SENDGRID_FROM_EMAIL || 'admissions@prepreach.com'}>`,
+  replyTo: process.env.REPLY_TO_EMAIL || 'support@prepreach.com',
+});
+
+module.exports.getSenderConfig = getSenderConfig;
