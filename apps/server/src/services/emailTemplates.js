@@ -84,3 +84,13 @@ const getMilestoneTemplate = (studentName, milestoneName) => {
 };
 
 module.exports.getMilestoneTemplate = getMilestoneTemplate;
+
+const getCourseApprovalTemplate = (instructorName, courseTitle) => {
+  const content = `
+    <h2>Course Approved & Published</h2>
+    <p>Hello ${instructorName}, your course <strong>${courseTitle}</strong> is now live on the catalog.</p>
+  `;
+  return baseWrapper(content);
+};
+
+module.exports.getCourseApprovalTemplate = getCourseApprovalTemplate;
