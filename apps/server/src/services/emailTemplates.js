@@ -94,3 +94,12 @@ const getCourseApprovalTemplate = (instructorName, courseTitle) => {
 };
 
 module.exports.getCourseApprovalTemplate = getCourseApprovalTemplate;
+
+const getDeskSignature = () => `
+  <div style="margin-top:24px;border-top:1px solid #E8E8ED;padding-top:16px;color:#71717A;font-size:12px;">
+    <strong>PrepReach Examination Support Desk</strong><br/>
+    Dedicated mentoring for Civil Service, Banking, Railway & Municipal Aspirants.
+  </div>
+`;
+
+module.exports.getDeskSignature = getDeskSignature;
