@@ -58,3 +58,10 @@ const getSenderConfig = () => ({
 });
 
 module.exports.getSenderConfig = getSenderConfig;
+
+const getSecurityHeaders = () => ({
+  'X-Entity-Ref-ID': Date.now().toString(),
+  'List-Unsubscribe': '<mailto:unsubscribe@prepreach.com>',
+});
+
+module.exports.getSecurityHeaders = getSecurityHeaders;
