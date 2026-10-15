@@ -74,3 +74,13 @@ const getCourseUpdateTemplate = (courseName, updateDetails) => {
 };
 
 module.exports.getCourseUpdateTemplate = getCourseUpdateTemplate;
+
+const getMilestoneTemplate = (studentName, milestoneName) => {
+  const content = `
+    <h2>Milestone Achieved! 🎯</h2>
+    <p>Congratulations ${studentName}, you completed <strong>${milestoneName}</strong>!</p>
+  `;
+  return baseWrapper(content);
+};
+
+module.exports.getMilestoneTemplate = getMilestoneTemplate;
