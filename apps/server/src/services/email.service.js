@@ -65,3 +65,10 @@ const getSecurityHeaders = () => ({
 });
 
 module.exports.getSecurityHeaders = getSecurityHeaders;
+
+const trackEmailLatency = (startTime, recipient) => {
+  const duration = Date.now() - startTime;
+  console.log(`[email:metrics] Delivery to ${recipient} completed in ${duration}ms`);
+};
+
+module.exports.trackEmailLatency = trackEmailLatency;
