@@ -103,3 +103,9 @@ const getDeskSignature = () => `
 `;
 
 module.exports.getDeskSignature = getDeskSignature;
+
+const getLocalizedHeader = (lang = 'en') => {
+  return lang === 'hi' ? 'प्रेपरीच — सरकारी परीक्षा तैयारी' : 'PrepReach — Regional Government Exam Prep';
+};
+
+module.exports.getLocalizedHeader = getLocalizedHeader;
