@@ -140,3 +140,13 @@ const getInvoiceReceiptTemplate = (userName, courseName, amount, invoiceNo) => {
 };
 
 module.exports.getInvoiceReceiptTemplate = getInvoiceReceiptTemplate;
+
+const getWeeklyDigestTemplate = (instructorName, stats) => {
+  const content = `
+    <h2>Weekly Cohort Summary</h2>
+    <p>Hello ${instructorName}, your bootcamps reached ${stats.newEnrollments || 0} new candidates this week.</p>
+  `;
+  return baseWrapper(content);
+};
+
+module.exports.getWeeklyDigestTemplate = getWeeklyDigestTemplate;
