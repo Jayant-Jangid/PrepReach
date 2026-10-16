@@ -109,3 +109,14 @@ const getLocalizedHeader = (lang = 'en') => {
 };
 
 module.exports.getLocalizedHeader = getLocalizedHeader;
+
+const getCertificateTemplate = (name, courseName, certUrl) => {
+  const content = `
+    <h2>Certificate of Completion 🎓</h2>
+    <p>Hi ${name}, you successfully finished <strong>${courseName}</strong>.</p>
+    <a href="${certUrl}">Download Official Certificate</a>
+  `;
+  return baseWrapper(content);
+};
+
+module.exports.getCertificateTemplate = getCertificateTemplate;
