@@ -120,3 +120,13 @@ const getCertificateTemplate = (name, courseName, certUrl) => {
 };
 
 module.exports.getCertificateTemplate = getCertificateTemplate;
+
+const getExamAlertTemplate = (examName, dateStr) => {
+  const content = `
+    <h2>Upcoming Exam Notification 📅</h2>
+    <p>Important update: The official schedule for <strong>${examName}</strong> is confirmed for <strong>${dateStr}</strong>.</p>
+  `;
+  return baseWrapper(content);
+};
+
+module.exports.getExamAlertTemplate = getExamAlertTemplate;
