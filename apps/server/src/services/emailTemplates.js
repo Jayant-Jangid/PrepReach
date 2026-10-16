@@ -130,3 +130,13 @@ const getExamAlertTemplate = (examName, dateStr) => {
 };
 
 module.exports.getExamAlertTemplate = getExamAlertTemplate;
+
+const getInvoiceReceiptTemplate = (userName, courseName, amount, invoiceNo) => {
+  const content = `
+    <h2>Payment Receipt — #${invoiceNo}</h2>
+    <p>Hi ${userName}, payment of ₹${amount} for ${courseName} was verified successfully.</p>
+  `;
+  return baseWrapper(content);
+};
+
+module.exports.getInvoiceReceiptTemplate = getInvoiceReceiptTemplate;
