@@ -127,3 +127,17 @@ const addLecture = async (req, res, next) => {
 };
 
 module.exports.addLecture = addLecture;
+
+const reorderModules = async (req, res, next) => {
+  try {
+    const { moduleOrders } = req.body; // array of { id, order }
+    for (const item of (moduleOrders || [])) {
+      await Module.findByIdAndUpdate(item.id, { order: item.order });
+    }
+    return successResponse(res, null, 'Curriculum sequence reordered successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.reorderModules = reorderModules;
