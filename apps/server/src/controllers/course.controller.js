@@ -47,3 +47,24 @@ const getCourseById = async (req, res, next) => {
 };
 
 module.exports.getCourseById = getCourseById;
+
+const createCourse = async (req, res, next) => {
+  try {
+    const { title, description, examCategory, price, thumbnail, language } = req.body;
+    const course = await Course.create({
+      title,
+      description,
+      examCategory,
+      price,
+      thumbnail: thumbnail || '',
+      language: language || 'English',
+      instructor: req.user.id,
+      isPublished: false,
+    });
+    return successResponse(res, { course }, 'Course drafted successfully', 201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.createCourse = createCourse;
