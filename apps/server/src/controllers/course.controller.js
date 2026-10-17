@@ -31,7 +31,16 @@ const getCourseById = async (req, res, next) => {
     const course = await Course.findById(req.params.id).populate('instructor', 'name email');
     if (!course || course.isDeleted) return errorResponse(res, 'Course not found', 404);
     const modules = await Module.find({ course: course._id, isDeleted: false }).sort({ order: 1 });
-    return successResponse(res, { course, modules });
+    // Strip non-preview URLs for guests
+    const sanitizedModules = modules.map((m) => {
+      const obj = m.toObject();
+      obj.lectures = obj.lectures.map((l) => ({
+        ...l,
+        videoUrl: l.isPreview ? l.videoUrl : '',
+      }));
+      return obj;
+    });
+    return successResponse(res, { course, modules: sanitizedModules });
   } catch (err) {
     next(err);
   }
