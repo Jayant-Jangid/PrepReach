@@ -88,3 +88,21 @@ const updateCourse = async (req, res, next) => {
 };
 
 module.exports.updateCourse = updateCourse;
+
+const addModule = async (req, res, next) => {
+  try {
+    const { title, description, order } = req.body;
+    const moduleDoc = await Module.create({
+      course: req.params.id,
+      title,
+      description: description || '',
+      order: order || 1,
+      lectures: [],
+    });
+    return successResponse(res, { module: moduleDoc }, 'Module created successfully', 201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.addModule = addModule;
