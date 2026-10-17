@@ -159,3 +159,18 @@ const publishCourse = async (req, res, next) => {
 };
 
 module.exports.publishCourse = publishCourse;
+
+const deleteCourse = async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    course.isDeleted = true;
+    course.deletedAt = new Date();
+    await course.save();
+    return successResponse(res, null, 'Course archived successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deleteCourse = deleteCourse;
