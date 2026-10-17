@@ -25,3 +25,16 @@ const getCourses = async (req, res, next) => {
 };
 
 module.exports = { getCourses };
+
+const getCourseById = async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.id).populate('instructor', 'name email');
+    if (!course || course.isDeleted) return errorResponse(res, 'Course not found', 404);
+    const modules = await Module.find({ course: course._id, isDeleted: false }).sort({ order: 1 });
+    return successResponse(res, { course, modules });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getCourseById = getCourseById;
