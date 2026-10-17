@@ -68,3 +68,23 @@ const createCourse = async (req, res, next) => {
 };
 
 module.exports.createCourse = createCourse;
+
+const updateCourse = async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course || course.isDeleted) return errorResponse(res, 'Course not found', 404);
+    if (course.instructor.toString() !== req.user.id && req.user.role !== 'admin') {
+      return errorResponse(res, 'Unauthorized to modify this course', 403);
+    }
+    const allowed = ['title', 'description', 'examCategory', 'price', 'thumbnail', 'language', 'tags'];
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) course[key] = req.body[key];
+    }
+    await course.save();
+    return successResponse(res, { course }, 'Course updated successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.updateCourse = updateCourse;
