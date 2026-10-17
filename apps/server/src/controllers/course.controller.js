@@ -106,3 +106,24 @@ const addModule = async (req, res, next) => {
 };
 
 module.exports.addModule = addModule;
+
+const addLecture = async (req, res, next) => {
+  try {
+    const { title, videoUrl, duration, isPreview } = req.body;
+    const moduleDoc = await Module.findById(req.params.id);
+    if (!moduleDoc) return errorResponse(res, 'Module not found', 404);
+    moduleDoc.lectures.push({
+      title,
+      videoUrl: videoUrl || '',
+      duration: duration || 0,
+      isPreview: !!isPreview,
+      order: moduleDoc.lectures.length + 1,
+    });
+    await moduleDoc.save();
+    return successResponse(res, { module: moduleDoc }, 'Lecture added successfully', 201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.addLecture = addLecture;
