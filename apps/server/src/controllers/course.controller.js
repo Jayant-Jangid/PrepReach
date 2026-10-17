@@ -9,6 +9,7 @@ const getCourses = async (req, res, next) => {
     const skip = (page - 1) * limit;
 
     const filter = { isPublished: true, isDeleted: false };
+    if (req.query.category) filter.examCategory = req.query.category;
     const total = await Course.countDocuments(filter);
     const courses = await Course.find(filter)
       .populate('instructor', 'name email')
