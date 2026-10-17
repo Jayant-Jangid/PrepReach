@@ -141,3 +141,21 @@ const reorderModules = async (req, res, next) => {
 };
 
 module.exports.reorderModules = reorderModules;
+
+const publishCourse = async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    const modules = await Module.find({ course: course._id });
+    if (modules.length === 0 && !course.isPublished) {
+      return errorResponse(res, 'Cannot publish course without at least one syllabus module', 400);
+    }
+    course.isPublished = !course.isPublished;
+    await course.save();
+    return successResponse(res, { course }, `Course ${course.isPublished ? 'published' : 'unpublished'}`);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.publishCourse = publishCourse;
