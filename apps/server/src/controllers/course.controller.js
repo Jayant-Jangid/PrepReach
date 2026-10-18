@@ -176,3 +176,17 @@ const deleteCourse = async (req, res, next) => {
 };
 
 module.exports.deleteCourse = deleteCourse;
+
+const getFeaturedCourses = async (req, res, next) => {
+  try {
+    const featured = await Course.find({ isPublished: true, isDeleted: false })
+      .sort({ enrolledCount: -1, createdAt: -1 })
+      .limit(6)
+      .populate('instructor', 'name');
+    return successResponse(res, { courses: featured });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getFeaturedCourses = getFeaturedCourses;
