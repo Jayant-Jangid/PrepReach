@@ -46,6 +46,7 @@ const courseSchema = new mongoose.Schema(
       type: String,
       default: 'English',
     },
+    // Runtime duration auto-summed from modules
     totalDuration: {
       type: Number,
       default: 0,
