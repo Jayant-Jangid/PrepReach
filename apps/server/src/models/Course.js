@@ -37,6 +37,11 @@ const courseSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    difficulty: {
+      type: String,
+      enum: ['Foundation', 'Prelims', 'Mains', 'Interview', 'Comprehensive'],
+      default: 'Comprehensive',
+    },
     language: {
       type: String,
       default: 'English',
