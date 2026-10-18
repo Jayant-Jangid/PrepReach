@@ -11,6 +11,7 @@ const getCourses = async (req, res, next) => {
     const filter = { isPublished: true, isDeleted: false };
     if (req.query.category) filter.examCategory = req.query.category;
     if (req.query.difficulty) filter.difficulty = req.query.difficulty;
+    if (req.query.language) filter.language = req.query.language;
     if (req.query.search) filter.title = { $regex: req.query.search, $options: 'i' };
     const total = await Course.countDocuments(filter);
     const courses = await Course.find(filter)
