@@ -279,3 +279,17 @@ const updateCoursePrerequisites = async (req, res, next) => {
 };
 
 module.exports.updateCoursePrerequisites = updateCoursePrerequisites;
+
+const getCourseBySlug = async (req, res, next) => {
+  try {
+    const course = await Course.findOne({ slug: req.params.slug, isDeleted: false })
+      .populate('instructor', 'name avatar')
+      .populate('modules');
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    return successResponse(res, { course });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getCourseBySlug = getCourseBySlug;
