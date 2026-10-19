@@ -13,6 +13,10 @@ const getCourses = async (req, res, next) => {
     if (req.query.difficulty) filter.difficulty = req.query.difficulty;
     if (req.query.language) filter.language = req.query.language;
     if (req.query.tag) filter.tags = req.query.tag;
+    if (req.query.tags) {
+      const tagList = req.query.tags.split(',').map(t => t.trim().toLowerCase());
+      filter.tags = { $in: tagList };
+    }
     if (req.query.search) filter.title = { $regex: req.query.search, $options: 'i' };
     const total = await Course.countDocuments(filter);
     const courses = await Course.find(filter)

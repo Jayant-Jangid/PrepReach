@@ -131,6 +131,8 @@ const CIVIL_SERVICE_TAGS = ['polity', 'indian-history', 'economy', 'geography', 
 const BANKING_TAGS = ['quantitative-aptitude', 'logical-reasoning', 'english-comprehension', 'general-awareness', 'banking-awareness'];
 // Railway track catalog tags
 const RAILWAY_TAGS = ['rrb-ntpc', 'railway-group-d', 'technical-signal', 'general-science', 'basic-engineering'];
+// Municipal administration catalog tags
+const MUNICIPAL_TAGS = ['municipal-administration', 'state-acts', 'local-self-government', 'urban-development', 'revenue-laws'];
 
 courseSchema.index({ tags: 1 });
 courseSchema.index({ examCategory: 1, tags: 1 });
