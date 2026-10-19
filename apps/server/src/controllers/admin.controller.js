@@ -29,3 +29,26 @@ module.exports.toggleUserSuspension = toggleUserSuspension;
 
 const { moderateReview } = require('./review.controller');
 module.exports.moderateReview = moderateReview;
+
+const Course = require('../models/Course');
+
+const bulkUpdateCourseStatus = async (req, res, next) => {
+  try {
+    const { courseIds, isPublished, isArchived } = req.body;
+    const updates = {};
+    if (isPublished !== undefined) updates.isPublished = isPublished;
+    if (isArchived !== undefined) {
+      updates.isArchived = isArchived;
+      if (isArchived) updates.archivedAt = new Date();
+    }
+    const result = await Course.updateMany(
+      { _id: { $in: courseIds } },
+      { $set: updates }
+    );
+    return successResponse(res, { modifiedCount: result.modifiedCount }, `Bulk status updated for ${result.modifiedCount} courses`);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.bulkUpdateCourseStatus = bulkUpdateCourseStatus;
