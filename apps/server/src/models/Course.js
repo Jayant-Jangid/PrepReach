@@ -129,6 +129,8 @@ courseSchema.pre('save', function (next) {
 const CIVIL_SERVICE_TAGS = ['polity', 'indian-history', 'economy', 'geography', 'ethics', 'governance', 'environment'];
 // Public Banking sub-discipline catalog tags
 const BANKING_TAGS = ['quantitative-aptitude', 'logical-reasoning', 'english-comprehension', 'general-awareness', 'banking-awareness'];
+// Railway track catalog tags
+const RAILWAY_TAGS = ['rrb-ntpc', 'railway-group-d', 'technical-signal', 'general-science', 'basic-engineering'];
 
 courseSchema.index({ tags: 1 });
 courseSchema.index({ examCategory: 1, tags: 1 });
