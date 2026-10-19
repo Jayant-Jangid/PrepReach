@@ -235,3 +235,25 @@ const deleteLecture = async (req, res, next) => {
 };
 
 module.exports.deleteLecture = deleteLecture;
+
+const updateLecture = async (req, res, next) => {
+  try {
+    const { moduleId, lectureId } = req.params;
+    const { title, videoUrl, materialUrl, duration, isPreview } = req.body;
+    const mod = await Module.findById(moduleId);
+    if (!mod) return errorResponse(res, 'Module not found', 404);
+    const lecture = mod.lectures.id(lectureId);
+    if (!lecture) return errorResponse(res, 'Lecture not found', 404);
+    if (title !== undefined) lecture.title = title;
+    if (videoUrl !== undefined) lecture.videoUrl = videoUrl;
+    if (materialUrl !== undefined) lecture.materialUrl = materialUrl;
+    if (duration !== undefined) lecture.duration = duration;
+    if (isPreview !== undefined) lecture.isPreview = isPreview;
+    await mod.save();
+    return successResponse(res, { lecture }, 'Lecture updated successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.updateLecture = updateLecture;
