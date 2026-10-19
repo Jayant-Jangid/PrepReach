@@ -283,7 +283,7 @@ module.exports.updateCoursePrerequisites = updateCoursePrerequisites;
 const getCourseBySlug = async (req, res, next) => {
   try {
     const course = await Course.findOne({ slug: req.params.slug, isDeleted: false })
-      .populate('instructor', 'name avatar')
+      .populate('instructor', 'name email avatar bio credentials qualifications')
       .populate('modules');
     if (!course) return errorResponse(res, 'Course not found', 404);
     const totalLecturesCount = (course.modules || []).reduce((acc, m) => acc + (m.lectures ? m.lectures.length : 0), 0);
