@@ -125,6 +125,10 @@ courseSchema.pre('save', function (next) {
   next();
 });
 
+// Civil Service sub-discipline catalog tags
+const CIVIL_SERVICE_TAGS = ['polity', 'indian-history', 'economy', 'geography', 'ethics', 'governance', 'environment'];
+
+courseSchema.index({ tags: 1 });
 courseSchema.index({ title: 'text', description: 'text', tags: 'text' });
 
 courseSchema.virtual('modules', {
