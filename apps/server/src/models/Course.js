@@ -127,8 +127,11 @@ courseSchema.pre('save', function (next) {
 
 // Civil Service sub-discipline catalog tags
 const CIVIL_SERVICE_TAGS = ['polity', 'indian-history', 'economy', 'geography', 'ethics', 'governance', 'environment'];
+// Public Banking sub-discipline catalog tags
+const BANKING_TAGS = ['quantitative-aptitude', 'logical-reasoning', 'english-comprehension', 'general-awareness', 'banking-awareness'];
 
 courseSchema.index({ tags: 1 });
+courseSchema.index({ examCategory: 1, tags: 1 });
 courseSchema.index({ title: 'text', description: 'text', tags: 'text' });
 
 courseSchema.virtual('modules', {
