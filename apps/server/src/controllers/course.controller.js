@@ -190,3 +190,28 @@ const getFeaturedCourses = async (req, res, next) => {
 };
 
 module.exports.getFeaturedCourses = getFeaturedCourses;
+
+const downloadSyllabusPdf = async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.id).populate('modules');
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    const syllabusOutline = {
+      courseTitle: course.title,
+      examCategory: course.examCategory,
+      difficulty: course.difficulty,
+      totalModules: course.modules ? course.modules.length : 0,
+      generatedAt: new Date().toISOString(),
+      curriculum: (course.modules || []).map(m => ({
+        module: m.title,
+        lectures: (m.lectures || []).map(l => ({ title: l.title, duration: l.duration }))
+      }))
+    };
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="syllabus-${course._id}.json"`);
+    return res.status(200).json({ success: true, data: syllabusOutline });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.downloadSyllabusPdf = downloadSyllabusPdf;
