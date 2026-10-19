@@ -257,3 +257,20 @@ const updateLecture = async (req, res, next) => {
 };
 
 module.exports.updateLecture = updateLecture;
+
+const updateCoursePrerequisites = async (req, res, next) => {
+  try {
+    const { prerequisites, recommendedReadings } = req.body;
+    const course = await Course.findByIdAndUpdate(
+      req.params.id,
+      { prerequisites, recommendedReadings },
+      { new: true, runValidators: true }
+    );
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    return successResponse(res, { course }, 'Course prerequisites and readings updated');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.updateCoursePrerequisites = updateCoursePrerequisites;

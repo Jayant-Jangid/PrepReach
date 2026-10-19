@@ -71,6 +71,17 @@ const courseSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    prerequisites: {
+      type: [String],
+      default: [],
+    },
+    recommendedReadings: [
+      {
+        title: { type: String, required: true },
+        author: { type: String, default: '' },
+        linkUrl: { type: String, default: '' },
+      },
+    ],
   },
   { timestamps: true }
 );
