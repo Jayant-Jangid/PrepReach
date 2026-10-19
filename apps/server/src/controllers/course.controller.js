@@ -215,3 +215,23 @@ const downloadSyllabusPdf = async (req, res, next) => {
 };
 
 module.exports.downloadSyllabusPdf = downloadSyllabusPdf;
+
+const deleteLecture = async (req, res, next) => {
+  try {
+    const { moduleId, lectureId } = req.params;
+    const Progress = require('../models/Progress');
+    const progressCount = await Progress.countDocuments({ lectureId });
+    if (progressCount > 0) {
+      return errorResponse(res, 'Cannot delete lecture with active candidate progress history', 400);
+    }
+    const mod = await Module.findById(moduleId);
+    if (!mod) return errorResponse(res, 'Module not found', 404);
+    mod.lectures = mod.lectures.filter(l => l._id.toString() !== lectureId);
+    await mod.save();
+    return successResponse(res, null, 'Lecture removed successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deleteLecture = deleteLecture;
