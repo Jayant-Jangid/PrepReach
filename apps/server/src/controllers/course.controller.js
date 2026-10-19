@@ -286,7 +286,13 @@ const getCourseBySlug = async (req, res, next) => {
       .populate('instructor', 'name avatar')
       .populate('modules');
     if (!course) return errorResponse(res, 'Course not found', 404);
-    return successResponse(res, { course });
+    const totalLecturesCount = (course.modules || []).reduce((acc, m) => acc + (m.lectures ? m.lectures.length : 0), 0);
+    const syllabusStats = {
+      modulesCount: course.modules ? course.modules.length : 0,
+      lecturesCount: totalLecturesCount,
+      durationMinutes: course.totalDuration || 0,
+    };
+    return successResponse(res, { course, syllabusStats });
   } catch (err) {
     next(err);
   }
