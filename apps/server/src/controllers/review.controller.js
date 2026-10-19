@@ -29,3 +29,23 @@ const submitCourseReview = async (req, res, next) => {
 };
 
 module.exports = { submitCourseReview };
+
+const moderateReview = async (req, res, next) => {
+  try {
+    const { reviewId } = req.params;
+    const { isApproved } = req.body;
+    const review = await Review.findByIdAndUpdate(reviewId, { isApproved }, { new: true });
+    if (!review) return errorResponse(res, 'Review not found', 404);
+    const reviews = await Review.find({ course: review.course, isApproved: true });
+    const avg = reviews.length ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length : 0;
+    await Course.findByIdAndUpdate(review.course, {
+      averageRating: Number(avg.toFixed(1)),
+      totalReviews: reviews.length,
+    });
+    return successResponse(res, { review }, isApproved ? 'Review approved' : 'Review suppressed');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.moderateReview = moderateReview;

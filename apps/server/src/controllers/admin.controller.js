@@ -26,3 +26,6 @@ const toggleUserSuspension = async (req, res, next) => {
 };
 
 module.exports.toggleUserSuspension = toggleUserSuspension;
+
+const { moderateReview } = require('./review.controller');
+module.exports.moderateReview = moderateReview;
