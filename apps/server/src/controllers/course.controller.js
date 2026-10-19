@@ -299,3 +299,19 @@ const getCourseBySlug = async (req, res, next) => {
 };
 
 module.exports.getCourseBySlug = getCourseBySlug;
+
+const archiveCourseBatch = async (req, res, next) => {
+  try {
+    const course = await Course.findByIdAndUpdate(
+      req.params.id,
+      { isArchived: true, archivedAt: new Date(), isPublished: false },
+      { new: true }
+    );
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    return successResponse(res, { course }, 'Course archived successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.archiveCourseBatch = archiveCourseBatch;
