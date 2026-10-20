@@ -338,3 +338,17 @@ const getRelatedCourses = async (req, res, next) => {
 };
 
 module.exports.getRelatedCourses = getRelatedCourses;
+
+const { generateCourseSeo } = require('../utils/seoHelper');
+
+const getCourseSeo = async (req, res, next) => {
+  try {
+    const course = await Course.findOne({ slug: req.params.slug });
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    return successResponse(res, { seo: generateCourseSeo(course) });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getCourseSeo = getCourseSeo;
