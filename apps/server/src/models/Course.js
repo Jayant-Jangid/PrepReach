@@ -77,6 +77,14 @@ const courseSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    studyDossiers: [
+      {
+        title: { type: String, required: true },
+        fileUrl: { type: String, required: true },
+        fileSize: { type: String, default: '1.2MB' },
+        format: { type: String, default: 'PDF' },
+      },
+    ],
     isPublished: {
       type: Boolean,
       default: false,

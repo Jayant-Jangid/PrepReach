@@ -379,3 +379,20 @@ const cloneCourse = async (req, res, next) => {
 };
 
 module.exports.cloneCourse = cloneCourse;
+
+const addStudyDossier = async (req, res, next) => {
+  try {
+    const { title, fileUrl, fileSize, format } = req.body;
+    const course = await Course.findByIdAndUpdate(
+      req.params.id,
+      { $push: { studyDossiers: { title, fileUrl, fileSize, format } } },
+      { new: true }
+    );
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    return successResponse(res, { studyDossiers: course.studyDossiers }, 'Study dossier attached');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.addStudyDossier = addStudyDossier;
