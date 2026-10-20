@@ -11,3 +11,20 @@ const getCategories = async (req, res, next) => {
 };
 
 module.exports = { getCategories };
+
+const cache = require('../utils/cache');
+
+const getCachedCategories = async (req, res, next) => {
+  try {
+    const cached = cache.get('all_categories');
+    if (cached) return successResponse(res, { categories: cached, fromCache: true });
+    const Category = require('../models/Category');
+    const categories = await Category.find({ isActive: true }).lean();
+    cache.set('all_categories', categories, 600);
+    return successResponse(res, { categories, fromCache: false });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getCachedCategories = getCachedCategories;
