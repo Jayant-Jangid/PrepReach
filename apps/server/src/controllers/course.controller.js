@@ -152,7 +152,7 @@ module.exports.reorderModules = reorderModules;
 const publishCourse = async (req, res, next) => {
   try {
     const course = await Course.findById(req.params.id);
-    if (!course) return errorResponse(res, 'Course not found', 404);
+    if (!coursePopulated) return errorResponse(res, 'Course not found', 404);
     const modules = await Module.find({ course: course._id });
     if (modules.length === 0 && !course.isPublished) {
       return errorResponse(res, 'Cannot publish course without at least one syllabus module', 400);
@@ -284,17 +284,19 @@ module.exports.updateCoursePrerequisites = updateCoursePrerequisites;
 
 const getCourseBySlug = async (req, res, next) => {
   try {
-    const course = await Course.findOne({ slug: req.params.slug, isDeleted: false })
+    const course = await Course.findOne({ slug: req.params.slug, isDeleted: false });
+    if (course) Course.findByIdAndUpdate(course._id, { $inc: { viewCount: 1 } }).exec();
+    const coursePopulated = await Course.findOne({ slug: req.params.slug, isDeleted: false })
       .populate('instructor', 'name email avatar bio credentials qualifications')
       .populate('modules');
     if (!course) return errorResponse(res, 'Course not found', 404);
-    const totalLecturesCount = (course.modules || []).reduce((acc, m) => acc + (m.lectures ? m.lectures.length : 0), 0);
+    const totalLecturesCount = (coursePopulated.modules || []).reduce((acc, m) => acc + (m.lectures ? m.lectures.length : 0), 0);
     const syllabusStats = {
-      modulesCount: course.modules ? course.modules.length : 0,
+      modulesCount: coursePopulated.modules ? coursePopulated.modules.length : 0,
       lecturesCount: totalLecturesCount,
-      durationMinutes: course.totalDuration || 0,
+      durationMinutes: coursePopulated.totalDuration || 0,
     };
-    return successResponse(res, { course, syllabusStats });
+    return successResponse(res, { course: coursePopulated, syllabusStats });
   } catch (err) {
     next(err);
   }
