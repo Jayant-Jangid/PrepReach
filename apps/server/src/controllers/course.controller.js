@@ -354,3 +354,28 @@ const getCourseSeo = async (req, res, next) => {
 };
 
 module.exports.getCourseSeo = getCourseSeo;
+
+const cloneCourse = async (req, res, next) => {
+  try {
+    const source = await Course.findById(req.params.id);
+    if (!source) return errorResponse(res, 'Source course not found', 404);
+    const cloned = new Course({
+      title: `${source.title} (Batch ${new Date().getFullYear()})`,
+      description: source.description,
+      examCategory: source.examCategory,
+      instructor: req.user ? req.user.id : source.instructor,
+      price: source.price,
+      thumbnail: source.thumbnail,
+      difficulty: source.difficulty,
+      language: source.language,
+      tags: source.tags,
+      isPublished: false,
+    });
+    await cloned.save();
+    return successResponse(res, { course: cloned }, 'Course cloned for new batch', 201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.cloneCourse = cloneCourse;
