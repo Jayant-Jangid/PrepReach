@@ -315,3 +315,24 @@ const archiveCourseBatch = async (req, res, next) => {
 };
 
 module.exports.archiveCourseBatch = archiveCourseBatch;
+
+const getRelatedCourses = async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    const related = await Course.find({
+      _id: { $ne: course._id },
+      examCategory: course.examCategory,
+      isPublished: true,
+      isDeleted: false,
+    })
+      .sort({ averageRating: -1, enrolledCount: -1 })
+      .limit(4)
+      .select('title slug thumbnail price difficulty averageRating');
+    return successResponse(res, { courses: related });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getRelatedCourses = getRelatedCourses;
