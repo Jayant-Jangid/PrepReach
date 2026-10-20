@@ -77,6 +77,13 @@ const courseSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    curriculumChangelog: [
+      {
+        version: { type: String, required: true },
+        changeSummary: { type: String, required: true },
+        updatedAt: { type: Date, default: Date.now },
+      },
+    ],
     studyDossiers: [
       {
         title: { type: String, required: true },

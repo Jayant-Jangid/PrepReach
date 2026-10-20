@@ -396,3 +396,15 @@ const addStudyDossier = async (req, res, next) => {
 };
 
 module.exports.addStudyDossier = addStudyDossier;
+
+const getCourseChangelog = async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.id).select('curriculumChangelog title');
+    if (!course) return errorResponse(res, 'Course not found', 404);
+    return successResponse(res, { changelog: course.curriculumChangelog || [] });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getCourseChangelog = getCourseChangelog;
