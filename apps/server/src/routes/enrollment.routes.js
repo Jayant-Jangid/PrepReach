@@ -6,3 +6,5 @@ const enrollmentController = require('../controllers/enrollment.controller');
 router.post('/courses/:id/enroll', protect, enrollmentController.enrollInCourse);
 
 module.exports = router;
+
+router.get('/my-courses', protect, enrollmentController.getStudentEnrollments);

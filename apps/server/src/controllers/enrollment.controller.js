@@ -27,3 +27,21 @@ const enrollInCourse = async (req, res, next) => {
 };
 
 module.exports = { enrollInCourse };
+
+const getStudentEnrollments = async (req, res, next) => {
+  try {
+    const studentId = req.user ? req.user.id : req.params.studentId;
+    const enrollments = await Enrollment.find({ student: studentId })
+      .populate({
+        path: 'course',
+        select: 'title slug thumbnail difficulty examCategory totalLectures',
+        populate: { path: 'instructor', select: 'name avatar' }
+      })
+      .sort({ enrolledAt: -1 });
+    return successResponse(res, { enrollments });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getStudentEnrollments = getStudentEnrollments;
