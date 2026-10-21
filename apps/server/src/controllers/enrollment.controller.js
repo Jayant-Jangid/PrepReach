@@ -8,6 +8,12 @@ const enrollInCourse = async (req, res, next) => {
     const course = await Course.findById(courseId);
     if (!course) return errorResponse(res, 'Course not found', 404);
 
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    const existing = await Enrollment.findOne({ student: studentId, course: courseId });
+    if (existing) {
+      return errorResponse(res, 'Candidate is already enrolled in this course', 409);
+    }
+
     const enrollment = new Enrollment({
       student: req.user ? req.user.id : req.body.studentId,
       course: courseId,
