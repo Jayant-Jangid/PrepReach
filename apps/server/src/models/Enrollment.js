@@ -25,6 +25,14 @@ const enrollmentSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    lastActiveLecture: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+    },
+    lastActiveAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );

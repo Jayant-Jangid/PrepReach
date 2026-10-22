@@ -1,5 +1,6 @@
 const Progress = require('../models/Progress');
 const Module = require('../models/Module');
+const Enrollment = require('../models/Enrollment');
 const { successResponse, errorResponse } = require('../utils/apiResponse');
 const { calculateCourseProgress } = require('../utils/progressCalculator');
 
@@ -25,6 +26,10 @@ const updateLectureProgress = async (req, res, next) => {
       { upsert: true, new: true, setDefaultsOnInsert: true }
     );
 
+    await Enrollment.findOneAndUpdate(
+      { student: studentId, course: mod.course },
+      { lastActiveLecture: lectureId, lastActiveAt: new Date() }
+    );
     const coursePercentage = await calculateCourseProgress(studentId, mod.course);
     return successResponse(res, { progress, coursePercentage }, 'Progress updated');
   } catch (err) {
