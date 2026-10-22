@@ -52,3 +52,29 @@ const bulkUpdateCourseStatus = async (req, res, next) => {
 };
 
 module.exports.bulkUpdateCourseStatus = bulkUpdateCourseStatus;
+
+const Enrollment = require('../models/Enrollment');
+
+const getAdminEnrollmentsReport = async (req, res, next) => {
+  try {
+    const { startDate, endDate, courseId } = req.query;
+    const filter = {};
+    if (courseId) filter.course = courseId;
+    if (startDate || endDate) {
+      filter.enrolledAt = {};
+      if (startDate) filter.enrolledAt.$gte = new Date(startDate);
+      if (endDate) filter.enrolledAt.$lte = new Date(endDate);
+    }
+    const enrollments = await Enrollment.find(filter)
+      .populate('student', 'name email')
+      .populate('course', 'title price')
+      .sort({ enrolledAt: -1 })
+      .limit(100);
+    const total = await Enrollment.countDocuments(filter);
+    return successResponse(res, { total, enrollments });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getAdminEnrollmentsReport = getAdminEnrollmentsReport;
