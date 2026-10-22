@@ -4,3 +4,10 @@ const logAuthFailure = (action, email, ip, reason) => {
 };
 
 module.exports = { logAuthFailure };
+
+const logAuditAction = (action, details) => {
+  const timestamp = new Date().toISOString();
+  console.info(`[admin:audit] Action: ${action} Details: ${JSON.stringify(details)} at ${timestamp}`);
+};
+
+module.exports.logAuditAction = logAuditAction;

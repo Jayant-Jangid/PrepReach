@@ -78,3 +78,27 @@ const getAdminEnrollmentsReport = async (req, res, next) => {
 };
 
 module.exports.getAdminEnrollmentsReport = getAdminEnrollmentsReport;
+
+const { logAuditAction } = require('../utils/auditLogger');
+
+const adminUnenrollStudent = async (req, res, next) => {
+  try {
+    const { enrollmentId, reason } = req.body;
+    const enrollment = await Enrollment.findByIdAndDelete(enrollmentId);
+    if (!enrollment) return errorResponse(res, 'Enrollment not found', 404);
+
+    logAuditAction('ADMIN_UNENROLL', {
+      adminId: req.user ? req.user.id : 'admin',
+      studentId: enrollment.student,
+      courseId: enrollment.course,
+      reason,
+      timestamp: new Date(),
+    });
+
+    return successResponse(res, null, 'Student unenrolled with administrative audit log');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.adminUnenrollStudent = adminUnenrollStudent;
