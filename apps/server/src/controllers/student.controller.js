@@ -1,6 +1,7 @@
 const Enrollment = require('../models/Enrollment');
 const Progress = require('../models/Progress');
 const { successResponse } = require('../utils/apiResponse');
+const { calculateDailyStudyStreak } = require('../utils/streakCalculator');
 
 const getStudentDashboard = async (req, res, next) => {
   try {
@@ -20,6 +21,7 @@ const getStudentDashboard = async (req, res, next) => {
       completedLectures,
       enrollments,
       recentActivity,
+      streak: await calculateDailyStudyStreak(studentId),
     });
   } catch (err) {
     next(err);
