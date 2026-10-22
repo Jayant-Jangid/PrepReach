@@ -1,6 +1,7 @@
 const Progress = require('../models/Progress');
 const Module = require('../models/Module');
 const { successResponse, errorResponse } = require('../utils/apiResponse');
+const { calculateCourseProgress } = require('../utils/progressCalculator');
 
 const updateLectureProgress = async (req, res, next) => {
   try {
@@ -24,7 +25,8 @@ const updateLectureProgress = async (req, res, next) => {
       { upsert: true, new: true, setDefaultsOnInsert: true }
     );
 
-    return successResponse(res, { progress }, 'Progress updated');
+    const coursePercentage = await calculateCourseProgress(studentId, mod.course);
+    return successResponse(res, { progress, coursePercentage }, 'Progress updated');
   } catch (err) {
     next(err);
   }
