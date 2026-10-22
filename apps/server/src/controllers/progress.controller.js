@@ -38,3 +38,17 @@ const updateLectureProgress = async (req, res, next) => {
 };
 
 module.exports = { updateLectureProgress };
+
+const { checkCertificateEligibility } = require('../services/certificate.service');
+
+const getCertificateEligibility = async (req, res, next) => {
+  try {
+    const studentId = req.user ? req.user.id : req.query.studentId;
+    const eligibility = await checkCertificateEligibility(studentId, req.params.courseId);
+    return successResponse(res, eligibility);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getCertificateEligibility = getCertificateEligibility;
