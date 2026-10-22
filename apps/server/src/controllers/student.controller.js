@@ -27,3 +27,22 @@ const getStudentDashboard = async (req, res, next) => {
 };
 
 module.exports = { getStudentDashboard };
+
+const StudySession = require('../models/StudySession');
+
+const logStudySession = async (req, res, next) => {
+  try {
+    const { courseId, durationMinutes } = req.body;
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    const session = await StudySession.create({
+      student: studentId,
+      course: courseId,
+      durationMinutes,
+    });
+    return successResponse(res, { session }, 'Study session logged', 201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.logStudySession = logStudySession;
