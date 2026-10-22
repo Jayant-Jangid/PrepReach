@@ -113,3 +113,37 @@ const checkpointPlaybackPosition = async (req, res, next) => {
 };
 
 module.exports.checkpointPlaybackPosition = checkpointPlaybackPosition;
+
+const markAllModuleLecturesComplete = async (req, res, next) => {
+  try {
+    const { moduleId } = req.params;
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    const mod = await Module.findById(moduleId);
+    if (!mod) return errorResponse(res, 'Module not found', 404);
+
+    const ops = mod.lectures.map(lec => ({
+      updateOne: {
+        filter: { student: studentId, lectureId: lec._id },
+        update: {
+          $set: {
+            course: mod.course,
+            moduleId: mod._id,
+            watchedPercent: 100,
+            isCompleted: true,
+            completedAt: new Date(),
+          }
+        },
+        upsert: true,
+      }
+    }));
+
+    if (ops.length > 0) {
+      await Progress.bulkWrite(ops);
+    }
+    return successResponse(res, null, `Marked ${ops.length} lectures complete`);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.markAllModuleLecturesComplete = markAllModuleLecturesComplete;
