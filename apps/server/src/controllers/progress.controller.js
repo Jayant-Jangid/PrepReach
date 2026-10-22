@@ -96,3 +96,20 @@ const saveStudyNote = async (req, res, next) => {
 };
 
 module.exports.saveStudyNote = saveStudyNote;
+
+const checkpointPlaybackPosition = async (req, res, next) => {
+  try {
+    const { lectureId } = req.params;
+    const { positionSeconds } = req.body;
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    await Progress.updateOne(
+      { student: studentId, lectureId },
+      { $set: { lastPositionSeconds: positionSeconds, updatedAt: new Date() } }
+    );
+    return successResponse(res, null, 'Checkpoint updated');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.checkpointPlaybackPosition = checkpointPlaybackPosition;
