@@ -74,3 +74,25 @@ const addBookmark = async (req, res, next) => {
 };
 
 module.exports.addBookmark = addBookmark;
+
+const StudyNote = require('../models/StudyNote');
+
+const saveStudyNote = async (req, res, next) => {
+  try {
+    const { lectureId } = req.params;
+    const { courseId, content, timestampSeconds } = req.body;
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    const note = await StudyNote.create({
+      student: studentId,
+      course: courseId,
+      lectureId,
+      content,
+      timestampSeconds,
+    });
+    return successResponse(res, { note }, 'Study note saved', 201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.saveStudyNote = saveStudyNote;
