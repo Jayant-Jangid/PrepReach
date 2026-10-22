@@ -52,3 +52,25 @@ const getCertificateEligibility = async (req, res, next) => {
 };
 
 module.exports.getCertificateEligibility = getCertificateEligibility;
+
+const Bookmark = require('../models/Bookmark');
+
+const addBookmark = async (req, res, next) => {
+  try {
+    const { lectureId } = req.params;
+    const { courseId, timestampSeconds, label } = req.body;
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    const bookmark = await Bookmark.create({
+      student: studentId,
+      course: courseId,
+      lectureId,
+      timestampSeconds,
+      label,
+    });
+    return successResponse(res, { bookmark }, 'Bookmark created', 201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.addBookmark = addBookmark;
