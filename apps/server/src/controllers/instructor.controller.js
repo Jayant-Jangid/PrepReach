@@ -13,3 +13,19 @@ const getInstructorStats = async (req, res, next) => {
 };
 
 module.exports = { getInstructorStats };
+
+const Enrollment = require('../models/Enrollment');
+
+const getCourseStudentRoster = async (req, res, next) => {
+  try {
+    const { courseId } = req.params;
+    const roster = await Enrollment.find({ course: courseId })
+      .populate('student', 'name email avatar createdAt')
+      .sort({ enrolledAt: -1 });
+    return successResponse(res, { roster, count: roster.length });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getCourseStudentRoster = getCourseStudentRoster;
