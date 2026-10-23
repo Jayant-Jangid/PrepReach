@@ -76,3 +76,22 @@ const exportStudentNotes = async (req, res, next) => {
 };
 
 module.exports.exportStudentNotes = exportStudentNotes;
+
+const StudyGoal = require('../models/StudyGoal');
+
+const setStudyGoal = async (req, res, next) => {
+  try {
+    const { weeklyTargetHours, targetExamDate, preferredStudyTrack } = req.body;
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    const goal = await StudyGoal.findOneAndUpdate(
+      { student: studentId },
+      { weeklyTargetHours, targetExamDate, preferredStudyTrack },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+    return successResponse(res, { goal }, 'Study goal saved');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.setStudyGoal = setStudyGoal;
