@@ -48,3 +48,31 @@ const logStudySession = async (req, res, next) => {
 };
 
 module.exports.logStudySession = logStudySession;
+
+const StudyNote = require('../models/StudyNote');
+const Course = require('../models/Course');
+
+const exportStudentNotes = async (req, res, next) => {
+  try {
+    const { courseId } = req.params;
+    const studentId = req.user ? req.user.id : req.query.studentId;
+    const course = await Course.findById(courseId);
+    const notes = await StudyNote.find({ student: studentId, course: courseId }).sort({ createdAt: 1 });
+
+    const text = [
+      `PREPREACH STUDY DOSSIER - NOTES EXPORT`,
+      `Course: ${course ? course.title : 'Study Notes'}`,
+      `Exported At: ${new Date().toLocaleString()}`,
+      `----------------------------------------\n`,
+      ...notes.map((n, i) => `[${i + 1}] Timestamp: ${n.timestampSeconds}s\n${n.content}\n`)
+    ].join('\n');
+
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="notes-${courseId}.txt"`);
+    return res.status(200).send(text);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.exportStudentNotes = exportStudentNotes;
