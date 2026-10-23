@@ -21,6 +21,10 @@ const verifyLectureAccess = async (req, res, next) => {
     if (!enrollment) {
       return errorResponse(res, 'Active course enrollment required to access this lecture', 403);
     }
+
+    if (enrollment.expiresAt && new Date() > enrollment.expiresAt) {
+      return errorResponse(res, 'Course enrollment batch period has expired', 403);
+    }
     req.enrollment = enrollment;
     next();
   } catch (err) {

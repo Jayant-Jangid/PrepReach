@@ -33,6 +33,14 @@ const enrollmentSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    expiresAt: {
+      type: Date,
+      default: null,
+    },
+    isExpired: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
