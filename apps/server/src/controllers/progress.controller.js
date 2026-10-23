@@ -147,3 +147,24 @@ const markAllModuleLecturesComplete = async (req, res, next) => {
 };
 
 module.exports.markAllModuleLecturesComplete = markAllModuleLecturesComplete;
+
+const getModuleProgress = async (req, res, next) => {
+  try {
+    const { moduleId } = req.params;
+    const studentId = req.user ? req.user.id : req.query.studentId;
+    const mod = await Module.findById(moduleId);
+    if (!mod) return errorResponse(res, 'Module not found', 404);
+    const lectureIds = mod.lectures.map(l => l._id);
+    const completed = await Progress.countDocuments({
+      student: studentId,
+      lectureId: { $in: lectureIds },
+      isCompleted: true,
+    });
+    const percent = lectureIds.length ? Math.round((completed / lectureIds.length) * 100) : 0;
+    return successResponse(res, { moduleId, total: lectureIds.length, completed, percentage: percent });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getModuleProgress = getModuleProgress;
