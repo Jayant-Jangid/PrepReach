@@ -168,3 +168,20 @@ const getModuleProgress = async (req, res, next) => {
 };
 
 module.exports.getModuleProgress = getModuleProgress;
+
+const resetCourseProgress = async (req, res, next) => {
+  try {
+    const { courseId } = req.params;
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    await Progress.deleteMany({ student: studentId, course: courseId });
+    await Enrollment.updateOne(
+      { student: studentId, course: courseId },
+      { $set: { lastActiveLecture: null } }
+    );
+    return successResponse(res, null, 'Course progress reset successfully for repeat exam cycle');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.resetCourseProgress = resetCourseProgress;
