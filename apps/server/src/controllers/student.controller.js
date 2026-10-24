@@ -121,3 +121,23 @@ const submitQuizAttempt = async (req, res, next) => {
 };
 
 module.exports.submitQuizAttempt = submitQuizAttempt;
+
+const MockExam = require('../models/MockExam');
+
+const getMockTestAnalytics = async (req, res, next) => {
+  try {
+    const studentId = req.user ? req.user.id : req.query.studentId;
+    const exams = await MockExam.find({ student: studentId }).sort({ createdAt: 1 });
+    const totalAttempts = exams.length;
+    const averageScore = totalAttempts ? exams.reduce((acc, e) => acc + e.netScore, 0) / totalAttempts : 0;
+    return successResponse(res, {
+      totalAttempts,
+      averageScore: Number(averageScore.toFixed(2)),
+      history: exams.map(e => ({ batch: e.examBatch, score: e.netScore, percentile: e.percentile, date: e.createdAt })),
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getMockTestAnalytics = getMockTestAnalytics;
