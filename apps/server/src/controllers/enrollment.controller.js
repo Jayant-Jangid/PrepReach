@@ -38,7 +38,11 @@ const getStudentEnrollments = async (req, res, next) => {
         populate: { path: 'instructor', select: 'name avatar' }
       })
       .sort({ enrolledAt: -1 });
-    return successResponse(res, { enrollments });
+    const formatted = enrollments.map(e => ({
+      ...e.toObject(),
+      statusBadge: e.getStatusBadge ? e.getStatusBadge() : 'Active',
+    }));
+    return successResponse(res, { enrollments: formatted });
   } catch (err) {
     next(err);
   }
