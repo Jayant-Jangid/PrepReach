@@ -185,3 +185,32 @@ const resetCourseProgress = async (req, res, next) => {
 };
 
 module.exports.resetCourseProgress = resetCourseProgress;
+
+const videoCompletionWebhook = async (req, res, next) => {
+  try {
+    const { lectureId, playbackDuration, totalDuration } = req.body;
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    const percentage = totalDuration > 0 ? (playbackDuration / totalDuration) * 100 : 0;
+    if (percentage >= 90) {
+      const mod = await Module.findOne({ 'lectures._id': lectureId });
+      if (!mod) return errorResponse(res, 'Lecture not found', 404);
+      await Progress.findOneAndUpdate(
+        { student: studentId, lectureId },
+        {
+          course: mod.course,
+          moduleId: mod._id,
+          watchedPercent: 100,
+          isCompleted: true,
+          completedAt: new Date(),
+        },
+        { upsert: true }
+      );
+      return successResponse(res, { isCompleted: true }, 'Video completed via webhook');
+    }
+    return successResponse(res, { isCompleted: false }, 'Playback threshold not reached');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.videoCompletionWebhook = videoCompletionWebhook;
