@@ -141,3 +141,18 @@ const getMockTestAnalytics = async (req, res, next) => {
 };
 
 module.exports.getMockTestAnalytics = getMockTestAnalytics;
+
+const { generateCertificatePdfData } = require('../services/certificate.service');
+
+const generateCertificateCredential = async (req, res, next) => {
+  try {
+    const { courseId, certificateId } = req.body;
+    const studentName = req.user ? req.user.name : 'Candidate';
+    const credential = generateCertificatePdfData(studentName, 'Complete Preparation Program', certificateId);
+    return successResponse(res, { credential }, 'Certificate issued');
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.generateCertificateCredential = generateCertificateCredential;

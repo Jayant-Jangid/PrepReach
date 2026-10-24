@@ -19,3 +19,17 @@ const checkCertificateEligibility = async (studentId, courseId) => {
 };
 
 module.exports = { checkCertificateEligibility };
+
+const generateCertificatePdfData = (studentName, courseTitle, certificateId) => {
+  return {
+    issuer: 'PrepReach Central Academy',
+    studentName,
+    courseTitle,
+    certificateId,
+    issueDate: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }),
+    verificationUrl: `https://prepreach.in/verify/${certificateId}`,
+    status: 'VERIFIED_CREDENTIAL',
+  };
+};
+
+module.exports.generateCertificatePdfData = generateCertificatePdfData;
