@@ -95,3 +95,29 @@ const setStudyGoal = async (req, res, next) => {
 };
 
 module.exports.setStudyGoal = setStudyGoal;
+
+const QuizAttempt = require('../models/QuizAttempt');
+
+const submitQuizAttempt = async (req, res, next) => {
+  try {
+    const { courseId, lectureId, score, totalQuestions, submittedAnswers } = req.body;
+    const studentId = req.user ? req.user.id : req.body.studentId;
+    const percentage = Math.round((score / totalQuestions) * 100);
+    const passed = percentage >= 60;
+    const attempt = await QuizAttempt.create({
+      student: studentId,
+      course: courseId,
+      lectureId,
+      score,
+      totalQuestions,
+      percentage,
+      passed,
+      submittedAnswers,
+    });
+    return successResponse(res, { attempt }, 'Quiz attempt evaluated', 201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.submitQuizAttempt = submitQuizAttempt;
