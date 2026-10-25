@@ -44,3 +44,16 @@ const getInstructorEarnings = async (req, res, next) => {
 };
 
 module.exports.getInstructorEarnings = getInstructorEarnings;
+
+const Payout = require('../models/Payout');
+
+const getPayoutHistory = async (req, res, next) => {
+  try {
+    const payouts = await Payout.find({ instructor: req.user.id }).sort({ createdAt: -1 });
+    return successResponse(res, { payouts });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getPayoutHistory = getPayoutHistory;
