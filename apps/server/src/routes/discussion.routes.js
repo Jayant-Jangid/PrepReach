@@ -9,3 +9,5 @@ router.get('/:lectureId', protect, discussionController.getLectureQuestions);
 module.exports = router;
 
 router.post('/:discussionId/reply', protect, discussionController.replyToQuestion);
+
+router.post('/:discussionId/upvote', protect, discussionController.toggleUpvote);

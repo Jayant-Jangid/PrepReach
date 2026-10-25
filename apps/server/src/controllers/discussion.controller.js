@@ -62,3 +62,25 @@ const replyToQuestion = async (req, res, next) => {
 };
 
 module.exports.replyToQuestion = replyToQuestion;
+
+const toggleUpvote = async (req, res, next) => {
+  try {
+    const { discussionId } = req.params;
+    const userId = req.user ? req.user.id : req.body.userId;
+    const discussion = await Discussion.findById(discussionId);
+    if (!discussion) return errorResponse(res, 'Discussion not found', 404);
+
+    const hasUpvoted = discussion.upvotes.some(id => id.toString() === userId.toString());
+    if (hasUpvoted) {
+      discussion.upvotes = discussion.upvotes.filter(id => id.toString() !== userId.toString());
+    } else {
+      discussion.upvotes.push(userId);
+    }
+    await discussion.save();
+    return successResponse(res, { upvotesCount: discussion.upvotes.length, hasUpvoted: !hasUpvoted });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.toggleUpvote = toggleUpvote;
