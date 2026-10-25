@@ -29,3 +29,18 @@ const getCourseStudentRoster = async (req, res, next) => {
 };
 
 module.exports.getCourseStudentRoster = getCourseStudentRoster;
+
+const { calculateInstructorEarnings } = require('../services/payout.service');
+
+const getInstructorEarnings = async (req, res, next) => {
+  try {
+    const courses = await Course.find({ instructor: req.user.id, isDeleted: false });
+    const totalGross = courses.reduce((acc, c) => acc + ((c.price || 0) * (c.enrolledCount || 0)), 0);
+    const earnings = calculateInstructorEarnings(totalGross);
+    return successResponse(res, earnings);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getInstructorEarnings = getInstructorEarnings;
