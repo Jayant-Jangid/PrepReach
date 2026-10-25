@@ -173,3 +173,17 @@ const verifyCertificate = async (req, res, next) => {
 };
 
 module.exports.verifyCertificate = verifyCertificate;
+
+const Notification = require('../models/Notification');
+
+const getNotifications = async (req, res, next) => {
+  try {
+    const studentId = req.user ? req.user.id : req.query.studentId;
+    const notifications = await Notification.find({ recipient: studentId }).sort({ createdAt: -1 }).limit(20);
+    return successResponse(res, { notifications });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getNotifications = getNotifications;
