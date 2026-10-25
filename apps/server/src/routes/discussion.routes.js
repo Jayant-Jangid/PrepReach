@@ -7,3 +7,5 @@ router.post('/:lectureId', protect, discussionController.createQuestion);
 router.get('/:lectureId', protect, discussionController.getLectureQuestions);
 
 module.exports = router;
+
+router.post('/:discussionId/reply', protect, discussionController.replyToQuestion);
