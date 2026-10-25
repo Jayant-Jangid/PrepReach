@@ -1,0 +1,9 @@
+const express = require('express');
+const router = express.Router();
+const { protect } = require('../middleware/auth.middleware');
+const discussionController = require('../controllers/discussion.controller');
+
+router.post('/:lectureId', protect, discussionController.createQuestion);
+router.get('/:lectureId', protect, discussionController.getLectureQuestions);
+
+module.exports = router;
