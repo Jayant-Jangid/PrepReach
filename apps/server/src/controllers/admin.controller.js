@@ -102,3 +102,31 @@ const adminUnenrollStudent = async (req, res, next) => {
 };
 
 module.exports.adminUnenrollStudent = adminUnenrollStudent;
+
+const exportEnrollmentsCsv = async (req, res, next) => {
+  try {
+    const enrollments = await Enrollment.find()
+      .populate('student', 'name email')
+      .populate('course', 'title price')
+      .sort({ enrolledAt: -1 });
+
+    const header = 'EnrollmentID,StudentName,StudentEmail,CourseTitle,Price,PaymentStatus,EnrolledDate\n';
+    const rows = enrollments.map(e => [
+      e._id,
+      `"${(e.student && e.student.name) || ''}"`,
+      (e.student && e.student.email) || '',
+      `"${(e.course && e.course.title) || ''}"`,
+      (e.course && e.course.price) || 0,
+      e.paymentStatus,
+      e.enrolledAt ? e.enrolledAt.toISOString() : ''
+    ].join(',')).join('\n');
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="enrollments-export.csv"');
+    return res.status(200).send(header + rows);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.exportEnrollmentsCsv = exportEnrollmentsCsv;
