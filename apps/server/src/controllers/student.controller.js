@@ -187,3 +187,20 @@ const getNotifications = async (req, res, next) => {
 };
 
 module.exports.getNotifications = getNotifications;
+
+const getLearningHeatmap = async (req, res, next) => {
+  try {
+    const studentId = req.user ? req.user.id : req.query.studentId;
+    const sessions = await StudySession.find({ student: studentId }).select('durationMinutes sessionDate');
+    const heatmap = {};
+    sessions.forEach(s => {
+      const dateKey = new Date(s.sessionDate).toISOString().split('T')[0];
+      heatmap[dateKey] = (heatmap[dateKey] || 0) + s.durationMinutes;
+    });
+    return successResponse(res, { heatmap });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getLearningHeatmap = getLearningHeatmap;
