@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "test": "jest --runInBand --detectOpenHandles"
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:integration": "jest tests/*.test.js --runInBand",
+    "test:unit": "jest tests/unit/*.test.js" 
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.4",
