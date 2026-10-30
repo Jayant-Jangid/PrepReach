@@ -135,6 +135,15 @@ export default function Navbar() {
                     Dashboard
                   </Link>
 
+                  <Link
+                    href="/profile"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                  >
+                    <span className="w-4 h-4 rounded-full bg-slate-200 text-[10px] flex items-center justify-center font-bold text-slate-700">P</span>
+                    Profile Settings
+                  </Link>
+
                   <button
                     onClick={handleLogout}
                     className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
