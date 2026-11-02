@@ -72,6 +72,7 @@ export default function LandingPage() {
     },
   ]
 
+  // Platform Core Value Proposition Pillars
   const pillars = [
     {
       icon: Play,
