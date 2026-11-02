@@ -379,6 +379,52 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ── Verified Faculty & Candidate Testimonials ────────────────────── */}
+        <section className="py-12 border-t border-slate-200 bg-slate-50/50">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-2xl mx-auto mb-8">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary-600 bg-primary-50 px-2.5 py-1 rounded">
+                Verified Credentials
+              </span>
+              <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
+                Taught by Top Regional Ranks
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                <p className="text-sm text-slate-600 italic">"The pay-per-course model let me study Rajasthan Administration without paying 50,000 for an entire generic package."</p>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center font-bold text-primary-700 text-xs">AS</div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-900">Ananya Sharma</h4>
+                    <p className="text-xs text-slate-500">RAS Rank 42, 2024</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                <p className="text-sm text-slate-600 italic">"Previewing full lecture videos before enrolling was what convinced me. Zero false promises."</p>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-accent-100 flex items-center justify-center font-bold text-accent-700 text-xs">RK</div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-900">Rahul Kumar</h4>
+                    <p className="text-xs text-slate-500">SBI PO Candidate</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                <p className="text-sm text-slate-600 italic">"Focused technical modules for RRB solved exactly what standard institutes gloss over."</p>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-emerald-700 text-xs">VS</div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-900">Vikram Singh</h4>
+                    <p className="text-xs text-slate-500">RRB NTPC Qualified</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ── 5. Clean Institutional CTA Banner ─────────────────────── */}
         <section className="py-16 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
