@@ -32,6 +32,7 @@ export default function LandingPage() {
     return '/student/dashboard'
   }
 
+  // 4 Core Public Exam Verticals
   const examCategories = [
     {
       id: 'civil_service',
