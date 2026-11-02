@@ -11,6 +11,7 @@ module.exports = {
     `${webDir}/lib/**/*.{js,ts,jsx,tsx,mdx}`,
     `${webDir}/store/**/*.{js,ts,jsx,tsx,mdx}`,
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './lib/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './lib/**/*.{js,ts,jsx,tsx,mdx}',
     './store/**/*.{js,ts,jsx,tsx,mdx}',
