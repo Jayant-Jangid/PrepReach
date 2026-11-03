@@ -135,6 +135,7 @@ export default function CourseLearningPage() {
               title={currentLecture?.title || course.title}
               videoUrl={currentLecture?.videoUrl}
               isPreview={false}
+              onComplete={handleMarkComplete}
             />
           </div>
 
