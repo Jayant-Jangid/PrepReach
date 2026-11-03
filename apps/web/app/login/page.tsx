@@ -8,6 +8,7 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import { Mail, ArrowRight, ShieldCheck } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { validateLoginForm } from '@/lib/validation'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -19,8 +20,13 @@ export default function LoginPage() {
     e.preventDefault()
     setError('')
 
+    const validation = validateLoginForm({ email })
+    if (!validation.isValid) {
+      setError(validation.errors.email || 'Please provide a valid email address.')
+      return
+    }
     const cleanEmail = email.trim().toLowerCase()
-    if (!cleanEmail || !cleanEmail.includes('@')) {
+    if (!cleanEmail) {
       setError('Please provide a valid email address.')
       return
     }
