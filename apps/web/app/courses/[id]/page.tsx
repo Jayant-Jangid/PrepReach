@@ -95,7 +95,8 @@ export default function CourseDetailPage() {
     try {
       setIsEnrolling(true)
       await enrollmentsAPI.enroll(courseId)
-      toast.success('Successfully enrolled! Welcome to the bootcamp.')
+      toast.success('Successfully enrolled! Redirecting to study room...');
+      setTimeout(() => router.push(`/courses/${courseId}/learn`), 800)
       setIsEnrolled(true)
       router.push(`/courses/${courseId}/learn`)
     } catch (err: any) {
