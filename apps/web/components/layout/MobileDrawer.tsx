@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 import { X, BookOpen, Compass, Award, Shield } from 'lucide-react'
 import Button from '@/components/ui/Button'
 
@@ -11,6 +13,14 @@ interface MobileDrawerProps {
 }
 
 export default function MobileDrawer({ isOpen, onClose, user }: MobileDrawerProps) {
+  const pathname = usePathname()
+
+  // Auto-close drawer on route navigation
+  useEffect(() => {
+    if (isOpen) {
+      onClose()
+    }
+  }, [pathname])
   if (!isOpen) return null
 
   return (
