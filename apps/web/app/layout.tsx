@@ -11,6 +11,13 @@ export const metadata: Metadata = {
     icon: '/assets/prepreach_icon.png',
     apple: '/assets/prepreach_icon.png',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PrepReach | Regional Government Exam Bootcamps',
+    description: 'Targeted, pay-per-course preparation for competitive government examinations.',
+    images: ['/assets/prepreach_logo.png'],
+    creator: '@PrepReach',
+  },
   openGraph: {
     title: 'PrepReach | Government Exam Bootcamps',
     description: 'Targeted, pay-per-course preparation for competitive government examinations.',
