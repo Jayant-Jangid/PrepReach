@@ -144,6 +144,20 @@ export default function CourseLearningPage() {
       <div className="flex-1 flex flex-col lg:flex-row">
         {/* Left 70%: Lecture Player & Notes */}
         <div className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
+          {/* Downloadable Study Notes PDF Banner */}
+          <div className="flex items-center justify-between p-3.5 bg-blue-50/60 border border-blue-100 rounded-xl max-w-4xl mx-auto mb-4">
+            <div className="flex items-center gap-2.5">
+              <FileText className="w-5 h-5 text-blue-600 shrink-0" />
+              <div>
+                <p className="text-xs font-semibold text-blue-900">Lecture Notes & Revision Dossier</p>
+                <p className="text-[11px] text-blue-600">Download high-yield summary notes for offline preparation (PDF, 2.4 MB)</p>
+              </div>
+            </div>
+            <Button size="sm" variant="outline" className="text-xs border-blue-200 text-blue-700 hover:bg-blue-100/50" onClick={() => toast.success('Downloading lecture study notes (PDF)...')}>
+              Download PDF
+            </Button>
+          </div>
+
           <div className="rounded-lg overflow-hidden border border-slate-300 bg-black aspect-video max-w-4xl mx-auto shadow-md">
             <VideoPlayer
               title={currentLecture?.title || course.title}
