@@ -58,7 +58,12 @@ function VerifyOTPContent() {
       } else if (data.user.role === 'instructor') {
         router.push('/instructor/dashboard')
       } else {
-        router.push('/student/dashboard')
+        const fromParam = searchParams.get('from')
+        if (fromParam && fromParam.startsWith('/')) {
+          router.push(fromParam)
+        } else {
+          router.push('/student/dashboard')
+        }
       }
     } catch (err: any) {
       const msg = err.response?.data?.message || 'Invalid or expired OTP. Please try again.'
