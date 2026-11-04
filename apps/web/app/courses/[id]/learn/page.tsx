@@ -62,12 +62,14 @@ export default function CourseLearningPage() {
     if (!currentLecture) return
     try {
       setIsUpdatingProgress(true)
+      // Optimistic visual feedback before network response
+      toast.loading('Saving progress...', { id: 'progress' })
       await enrollmentsAPI.updateProgress(courseId, {
         moduleId: currentModuleId,
         lectureId: currentLecture._id,
         watchedPercent: 100,
       })
-      toast.success('Lecture marked as completed!')
+      toast.success('Lecture marked as completed! Progress updated.', { id: 'progress' })
     } catch (err) {
       console.error(err)
       toast.error('Failed to update progress.')
