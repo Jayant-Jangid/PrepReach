@@ -10,7 +10,7 @@ import VideoPlayer from '@/components/course/VideoPlayer'
 import ModuleAccordion from '@/components/course/ModuleAccordion'
 import Button from '@/components/ui/Button'
 import Spinner from '@/components/ui/Spinner'
-import { ArrowLeft, CheckCircle2, ChevronRight, BookOpen, Clock, FileText } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, ChevronRight, BookOpen, Clock, FileText, Bookmark } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function CourseLearningPage() {
@@ -25,6 +25,7 @@ export default function CourseLearningPage() {
   const [currentModuleId, setCurrentModuleId] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdatingProgress, setIsUpdatingProgress] = useState(false)
+  const [isBookmarked, setIsBookmarked] = useState(false)
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -124,6 +125,17 @@ export default function CourseLearningPage() {
             leftIcon={<CheckCircle2 className="h-4 w-4 text-emerald-600" />}
           >
             Mark as Done
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => {
+              setIsBookmarked(!isBookmarked)
+              toast.success(isBookmarked ? 'Bookmark removed' : 'Lecture bookmarked for revision!')
+            }}
+            leftIcon={<Bookmark className={`h-4 w-4 ${isBookmarked ? 'fill-accent-500 text-accent-500' : 'text-slate-500'}`} />}
+          >
+            {isBookmarked ? 'Bookmarked' : 'Bookmark'}
           </Button>
         </div>
       </header>
