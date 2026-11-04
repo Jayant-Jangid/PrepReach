@@ -2,6 +2,7 @@ import React from 'react'
 import CourseCard from './CourseCard'
 import { Course } from '@/types'
 import { BookOpen } from 'lucide-react'
+import Skeleton from '@/components/ui/Skeleton'
 
 interface CourseGridProps {
   courses?: Course[]
@@ -15,11 +16,11 @@ export default function CourseGrid({ courses = [], isLoading = false }: CourseGr
     return (
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="animate-pulse rounded-lg border border-slate-200 bg-white p-4">
-            <div className="aspect-video w-full rounded bg-slate-200 mb-4" />
-            <div className="h-4 w-3/4 rounded bg-slate-200 mb-2" />
-            <div className="h-3 w-1/2 rounded bg-slate-200 mb-4" />
-            <div className="h-4 w-1/3 rounded bg-slate-200 mt-auto" />
+          <div key={i} className="rounded-lg border border-slate-200 bg-white p-4">
+            <Skeleton className="aspect-video w-full rounded mb-4" />
+            <Skeleton className="h-4 w-3/4 mb-2" />
+            <Skeleton className="h-3 w-1/2 mb-4" />
+            <Skeleton className="h-4 w-1/3 mt-auto" />
           </div>
         ))}
       </div>
