@@ -47,6 +47,9 @@ export default function CourseDetailPage() {
         const res = await coursesAPI.getById(courseId)
         const c: Course = res.data.data
         setCourse(c)
+        if (typeof document !== 'undefined' && c?.title) {
+          document.title = `${c.title} | PrepReach Bootcamp`
+        }
 
         // Set first preview lecture if available
         if (c.modules) {
