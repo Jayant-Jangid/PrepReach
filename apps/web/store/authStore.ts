@@ -11,6 +11,7 @@ interface AuthStore {
   logout: () => void
   setUser: (user: User) => void
   setLoading: (loading: boolean) => void
+  rehydrate: () => void
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -33,6 +34,21 @@ export const useAuthStore = create<AuthStore>()(
       setUser: (user) => set({ user }),
 
       setLoading: (loading) => set({ isLoading: loading }),
+
+      rehydrate: () => {
+        // Re-read active session from client storage
+        if (typeof window !== 'undefined') {
+          const raw = localStorage.getItem('prepreach-auth')
+          if (raw) {
+            try {
+              const parsed = JSON.parse(raw)
+              if (parsed.state?.user) {
+                set({ user: parsed.state.user, isAuthenticated: true })
+              }
+            } catch (_) {}
+          }
+        }
+      },
     }),
     {
       name: 'prepreach-auth',
