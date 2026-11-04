@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store/authStore'
 import ModuleAccordion from '@/components/course/ModuleAccordion'
 import VideoPlayer from '@/components/course/VideoPlayer'
 import Button from '@/components/ui/Button'
+import { Share2, Copy } from 'lucide-react'
 import Spinner from '@/components/ui/Spinner'
 import {
   Users,
@@ -230,7 +231,24 @@ export default function CourseDetailPage() {
         </div>
 
         {/* Right Sticky Enrollment Card */}
-        <div className="lg:col-span-4 sticky top-24">
+        <div className="lg:col-span-4 sticky top-24 space-y-4">
+          {/* Share & Referral Widget */}
+          <div className="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+            <span className="font-medium text-slate-600 flex items-center gap-1.5">
+              <Share2 className="w-3.5 h-3.5 text-primary-500" /> Share course link
+            </span>
+            <button
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  navigator.clipboard.writeText(window.location.href)
+                  toast.success('Course referral link copied to clipboard!')
+                }
+              }}
+              className="flex items-center gap-1 text-primary-600 hover:text-primary-800 font-semibold cursor-pointer"
+            >
+              <Copy className="w-3.5 h-3.5" /> Copy Link
+            </button>
+          </div>
           <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-card space-y-5">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">One-Time Enrollment</p>
