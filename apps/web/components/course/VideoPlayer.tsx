@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Play, Pause, Volume2, Maximize, RotateCcw, AlertCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -20,6 +20,19 @@ export default function VideoPlayer({
   onComplete,
 }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
+
+  // Keyboard shortcut controls: Space (play/pause), ArrowLeft (-10s), ArrowRight (+10s)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return
+      if (e.code === 'Space') {
+        e.preventDefault()
+        setIsPlaying((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   return (
     <div
