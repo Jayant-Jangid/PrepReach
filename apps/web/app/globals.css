@@ -162,3 +162,25 @@
     overflow: hidden;
   }
 }
+
+/* ── Print Stylesheet ──────────────────────────────────────────────── */
+@media print {
+  header, footer, nav, aside, .btn, button, .no-print {
+    display: none !important;
+  }
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 12pt !important;
+  }
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  a[href]:after {
+    content: "" !important;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+}
