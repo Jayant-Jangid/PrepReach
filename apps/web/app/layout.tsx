@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import ToastProvider from '@/components/providers/ToastProvider'
+import { Inter } from 'next/font/google'
 import './globals.css'
+
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'PrepReach | Regional Government Exam Bootcamps',
@@ -33,7 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-sans bg-white text-slate-900 antialiased selection:bg-slate-200">
+      <body className={`${inter.className} bg-white text-slate-900 antialiased selection:bg-slate-200`}>
         {children}
         <ToastProvider />
       </body>
