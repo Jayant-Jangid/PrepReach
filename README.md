@@ -1,55 +1,90 @@
-# PrepReach — Regional Government Exam Bootcamps
+<p align="center">
+  <img src="assets/prepreach_logo.png" width="130" alt="PrepReach Logo" />
+</p>
 
-> **Target Exam Categories:** Civil Service, Public Banking, Railway, Municipal  
-> **Architecture:** Monorepo Workspace (pnpm 9) · Next.js 14 · Express.js · MongoDB Atlas
+<h1 align="center">PrepReach — Regional Government Exam Bootcamps</h1>
+
+> **45% Development Benchmark Milestone Reached**  
+> **Tech Stack:** Next.js 14 · Node.js + Express.js · MongoDB
 
 ---
 
-## 🏗️ Project Structure
+## 🏗️ Architecture & Project Structure
+
+This monorepo contains both the frontend and backend services:
 
 ```
 prepreach/
 ├── apps/
 │   ├── server/                         # Express.js REST API
-│   │   ├── package.json
-│   │   └── .env.example
+│   │   ├── src/
+│   │   │   ├── config/                # DB (Mongoose) & Environment config
+│   │   │   ├── controllers/           # Auth, Course, Enrollment controllers
+│   │   │   ├── middleware/            # JWT protect, Role check, Validator, Error handler
+│   │   │   ├── models/                # User, Course, Module, Enrollment, OTP schemas
+│   │   │   ├── routes/                # Express API routes
+│   │   │   ├── services/              # SendGrid email & OTP services
+│   │   │   ├── utils/                 # Token generator & API response formatters
+│   │   │   └── index.js               # Server entry point
+│   │   ├── .env.local                 # Secret environment variables (SendGrid, Mongo, JWT)
+│   │   └── package.json
 │   └── web/                            # Next.js 14 App Router Frontend
-│       ├── package.json
-│       └── .env.example
-├── packages/
-│   └── shared/                         # Shared TypeScript types & constants
-├── docs/                               # System architecture documentation
-├── package.json                       # Monorepo root scripts & dev tools
-├── pnpm-workspace.yaml                 # Workspace package definitions
-└── turbo.json                         # Turborepo task pipelines
+│       ├── app/
+│       │   ├── (auth)/                # Login, Register, 6-box OTP verification
+│       │   ├── (student)/             # Dashboard, Course catalog, Details, Learning room
+│       │   ├── (instructor)/          # Dashboard, 3-step Course creation wizard
+│       │   ├── (admin)/               # Admin management portal
+│       │   ├── globals.css            # Tailwind directives & PrepReach brand palette
+│       │   ├── layout.tsx             # Root layout with Inter font & Toaster
+│       │   └── page.tsx               # High-converting Landing Page
+│       ├── components/
+│       │   ├── course/                # CourseCard, Grid, Filters, ModuleAccordion, VideoPlayer
+│       │   ├── dashboard/             # ProgressCard, StatsCard
+│       │   ├── layout/                # Navbar (role-aware), Sidebar, Footer
+│       │   └── ui/                    # Button, Input, Card, Badge, Modal, Avatar, ProgressBar, OTPInput
+│       ├── lib/                       # Axios client with interceptors, Auth cookie helpers, utils
+│       ├── store/                     # Zustand stores (Auth & Course)
+│       ├── types/                     # TypeScript definitions
+│       ├── middleware.ts              # Route protection middleware
+│       └── package.json
+├── package.json                       # Monorepo root scripts
+└── pnpm-workspace.yaml
 ```
 
 ---
 
-## 🎨 Brand Design Tokens
+## 🎨 Brand Design & System
 
-- **Primary Brand:** `#524C73` (Grayish Lavender)
-- **Accent Action:** `#B85324` (Cinnamon Rufous)
-- **Background Slate:** `#F8F9FA` (Clean institutional canvas)
-- **Text Contrast:** `#1A1A2E` (Deep navy text)
+- **Primary Color:** `#8B85C1` (Grayish Lavender)
+- **Accent Color:** `#C4622D` (Cinnamon Rufous)
+- **Background:** `#F9F8FF` (Subtle Lavender-tinted white)
+- **Text:** `#1A1A2E` (Deep navy contrast)
+- **Target Exam Categories:** Civil Service, Public Banking, Railway, Municipal
 
 ---
 
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
+In the root directory, install the monorepo packages:
 ```bash
 pnpm install
 ```
 
-### 2. Configure Environment Files
-Copy the example environment files and supply the required values:
-```bash
-cp apps/server/.env.example apps/server/.env.local
-cp apps/web/.env.example apps/web/.env.local
+### 2. Configure SendGrid API Key
+Open [apps/server/.env.local](file:///C:/Users/Jayant/miscellaneous/random/prepreach/apps/server/.env.local) and replace the placeholder with your verified SendGrid credentials:
+```env
+SENDGRID_API_KEY=SG.your_actual_key_here
+SENDGRID_FROM_EMAIL=your_verified_sender@email.com
 ```
 
-### 3. Start Development
+### 3. Ensure Local MongoDB is Running
+```bash
+mongod
+```
+
+### 4. Run Development Servers
+You can run both backend and frontend concurrently:
 ```bash
 pnpm dev
 ```
