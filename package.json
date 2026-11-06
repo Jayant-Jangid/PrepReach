@@ -7,6 +7,7 @@
     "build": "pnpm --parallel build",
     "lint": "pnpm --parallel lint",
     "test": "pnpm --parallel test",
+    "verify:build": "pnpm --parallel build",
     "clean": "rimraf node_modules .next dist build coverage apps/*/node_modules apps/*/.next apps/*/dist",
     "clean:workspaces": "rimraf apps/*/.next apps/*/dist apps/*/build packages/*/dist",
     "clean:all": "pnpm clean && pnpm clean:workspaces",
