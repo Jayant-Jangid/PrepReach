@@ -42,8 +42,13 @@ const issueTokens = async (user, res) => {
 const registerInit = async (req, res, next) => {
   try {
     const { email, name } = req.body;
-    await sendRegistrationOTP(email, name);
-    return successResponse(res, null, 'OTP sent to your email. Please verify to complete registration.', 200);
+    const plainOTP = await sendRegistrationOTP(email, name);
+    return successResponse(
+      res,
+      { debugOtp: plainOTP },
+      'OTP sent to your email. Please verify to complete registration.',
+      200
+    );
   } catch (err) {
     next(err);
   }
@@ -181,8 +186,8 @@ const login = async (req, res, next) => {
         return errorResponse(res, 'No account found with this email. Please register first.', 404);
       }
 
-      await sendLoginOTP(normalizedEmail);
-      return successResponse(res, null, 'Verification code sent to your email.', 200);
+      const plainOTP = await sendLoginOTP(normalizedEmail);
+      return successResponse(res, { debugOtp: plainOTP }, 'Verification code sent to your email.', 200);
     }
 
     // 2. Password-based Login flow
@@ -237,13 +242,14 @@ const resendOTP = async (req, res, next) => {
 
     const normalizedEmail = email.toLowerCase().trim();
 
+    let plainOTP;
     if (purpose === 'login') {
-      await sendLoginOTP(normalizedEmail);
+      plainOTP = await sendLoginOTP(normalizedEmail);
     } else {
-      await sendRegistrationOTP(normalizedEmail);
+      plainOTP = await sendRegistrationOTP(normalizedEmail);
     }
 
-    return successResponse(res, null, 'A fresh verification code has been sent.', 200);
+    return successResponse(res, { debugOtp: plainOTP }, 'A fresh verification code has been sent.', 200);
   } catch (err) {
     next(err);
   }

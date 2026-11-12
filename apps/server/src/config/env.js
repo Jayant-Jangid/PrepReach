@@ -29,7 +29,7 @@ module.exports = {
   JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
 
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
-  SENDGRID_FROM_EMAIL: process.env.SENDGRID_FROM_EMAIL,
+  SENDGRID_FROM_EMAIL: process.env.SENDGRID_FROM_EMAIL || 'apersonp576@gmail.com',
   SENDGRID_FROM_NAME: process.env.SENDGRID_FROM_NAME || 'PrepReach',
 
   // Gmail SMTP Direct Option (guarantees delivery when using a @gmail.com address)

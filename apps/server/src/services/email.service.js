@@ -87,10 +87,30 @@ const PURPOSE_LABELS = {
 };
 
 /**
- * Dispatches an email using either Gmail SMTP (primary for @gmail.com) or SendGrid.
+ * Dispatches an email using SendGrid HTTPS API (primary for cloud hosting where SMTP is firewalled)
+ * or falls back to Gmail SMTP for local development.
  */
 const sendMail = async ({ to, subject, html, text }) => {
-  // Option 1: Gmail Direct SMTP (Guaranteed 100% inbox delivery for @gmail.com senders)
+  // Option 1: SendGrid HTTPS REST API (Port 443 — guaranteed to work in cloud hosting like Render/AWS)
+  if (SENDGRID_API_KEY) {
+    try {
+      const msg = {
+        to,
+        from: FROM,
+        subject,
+        html,
+        text,
+      };
+      const result = await sgMail.send(msg);
+      console.log(`\n✅ [SendGrid HTTPS] Email successfully delivered to ${to} (Status: ${result[0]?.statusCode})\n`);
+      return result;
+    } catch (sgErr) {
+      const sgDetails = sgErr.response?.body?.errors?.[0]?.message || sgErr.message;
+      console.warn(`[SendGrid API Warning]: ${sgDetails}. Attempting Gmail SMTP fallback...`);
+    }
+  }
+
+  // Option 2: Gmail Direct SMTP (Fallback for local dev or when outbound SMTP ports 465/587 are open)
   if (gmailTransporter) {
     try {
       const info = await gmailTransporter.sendMail({
@@ -108,18 +128,7 @@ const sendMail = async ({ to, subject, html, text }) => {
     }
   }
 
-  // Option 2: SendGrid API
-  if (SENDGRID_API_KEY) {
-    const msg = {
-      to,
-      from: FROM,
-      subject,
-      html,
-    };
-    return await sgMail.send(msg);
-  }
-
-  throw new Error('No email transport configured. Set GMAIL_APP_PASSWORD or SENDGRID_API_KEY in .env.local.');
+  throw new Error('No email transport configured. Set SENDGRID_API_KEY or GMAIL_APP_PASSWORD.');
 };
 
 /**

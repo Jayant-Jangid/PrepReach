@@ -30,6 +30,8 @@ const sendRegistrationOTP = async (email) => {
   sendOTPEmail(normalizedEmail, plainOTP, 'registration').catch((err) => {
     console.error(`[Email Delivery Warning for ${normalizedEmail}]:`, err.message);
   });
+
+  return plainOTP;
 };
 
 /**
@@ -89,6 +91,8 @@ const sendLoginOTP = async (email) => {
   sendOTPEmail(normalizedEmail, plainOTP, 'login').catch((err) => {
     console.error(`[Email Delivery Warning for ${normalizedEmail}]:`, err.message);
   });
+
+  return plainOTP;
 };
 
 /**
