@@ -35,13 +35,12 @@ export default function RegisterPage() {
 
     try {
       setIsLoading(true)
-      const res = await authAPI.register(cleanName, cleanEmail)
-      const debugOtp = res.data?.data?.debugOtp
+      await authAPI.register(cleanName, cleanEmail)
       toast.success('Verification code sent to your email.')
       router.push(
         `/verify-otp?email=${encodeURIComponent(cleanEmail)}&name=${encodeURIComponent(
           cleanName
-        )}&purpose=registration${debugOtp ? `&code=${debugOtp}` : ''}`
+        )}&purpose=registration`
       )
     } catch (err: any) {
       const msg = err.response?.data?.message || 'Failed to start registration. Please try again.'

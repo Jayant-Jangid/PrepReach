@@ -17,11 +17,10 @@ function VerifyOTPContent() {
   const email = searchParams.get('email') || ''
   const name = searchParams.get('name') || ''
   const purpose = searchParams.get('purpose') || 'registration'
-  const codeParam = searchParams.get('code') || ''
 
   const { login } = useAuthStore()
 
-  const [otp, setOtp] = useState(codeParam)
+  const [otp, setOtp] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [countdown, setCountdown] = useState(30)
@@ -35,13 +34,6 @@ function VerifyOTPContent() {
     }, 1000)
     return () => clearInterval(timer)
   }, [countdown])
-
-  // Auto-verify if code was passed from registration/login
-  useEffect(() => {
-    if (codeParam && codeParam.length === 6) {
-      handleVerify(codeParam)
-    }
-  }, [codeParam])
 
   const handleVerify = async (codeToVerify?: string) => {
     const finalOtp = codeToVerify || otp
