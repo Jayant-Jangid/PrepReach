@@ -27,9 +27,12 @@ export default function LoginPage() {
 
     try {
       setIsLoading(true)
-      await authAPI.login(cleanEmail)
+      const res = await authAPI.login(cleanEmail)
+      const debugOtp = res.data?.data?.debugOtp
       toast.success('Verification code sent to your email.')
-      router.push(`/verify-otp?email=${encodeURIComponent(cleanEmail)}&purpose=login`)
+      router.push(
+        `/verify-otp?email=${encodeURIComponent(cleanEmail)}&purpose=login${debugOtp ? `&code=${debugOtp}` : ''}`
+      )
     } catch (err: any) {
       const msg = err.response?.data?.message || 'Failed to send OTP. Please check your email and try again.'
       setError(msg)
