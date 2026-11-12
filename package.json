@@ -1,0 +1,15 @@
+{
+  "name": "prepreach",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:server": "pnpm --filter server dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev": "concurrently \"pnpm dev:server\" \"pnpm dev:web\"",
+    "build:web": "pnpm --filter web build",
+    "lint": "pnpm --filter web lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
