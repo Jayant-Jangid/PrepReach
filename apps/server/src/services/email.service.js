@@ -17,6 +17,9 @@ let gmailTransporter = null;
 if (GMAIL_APP_PASSWORD) {
   gmailTransporter = nodemailer.createTransport({
     service: 'gmail',
+    pool: true,
+    maxConnections: 3,
+    maxMessages: 100,
     auth: {
       user: GMAIL_USER,
       pass: GMAIL_APP_PASSWORD.replace(/\s+/g, ''), // Strip spaces from Google 16-char app password

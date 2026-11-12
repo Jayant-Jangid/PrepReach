@@ -39,21 +39,25 @@ const sendRegistrationOTP = async (email) => {
 const verifyRegistrationOTP = async (email, candidateOTP) => {
   const normalizedEmail = email.toLowerCase().trim();
 
-  const otpDoc = await OTP.findOne({
+  const activeOtps = await OTP.find({
     email: normalizedEmail,
     purpose: 'registration',
     used: false,
     expiresAt: { $gt: new Date() },
   }).sort({ createdAt: -1 });
 
-  if (!otpDoc) return false;
+  for (const otpDoc of activeOtps) {
+    const isValid = await otpDoc.verifyOTP(candidateOTP);
+    if (isValid) {
+      otpDoc.used = true;
+      await otpDoc.save();
+      // Mark any other older pending registration OTPs for this email as used
+      await OTP.updateMany({ email: normalizedEmail, purpose: 'registration', used: false }, { used: true });
+      return true;
+    }
+  }
 
-  const isValid = await otpDoc.verifyOTP(candidateOTP);
-  if (!isValid) return false;
-
-  otpDoc.used = true;
-  await otpDoc.save();
-  return true;
+  return false;
 };
 
 /**
@@ -90,21 +94,25 @@ const sendLoginOTP = async (email) => {
 const verifyLoginOTP = async (email, candidateOTP) => {
   const normalizedEmail = email.toLowerCase().trim();
 
-  const otpDoc = await OTP.findOne({
+  const activeOtps = await OTP.find({
     email: normalizedEmail,
     purpose: 'login',
     used: false,
     expiresAt: { $gt: new Date() },
   }).sort({ createdAt: -1 });
 
-  if (!otpDoc) return false;
+  for (const otpDoc of activeOtps) {
+    const isValid = await otpDoc.verifyOTP(candidateOTP);
+    if (isValid) {
+      otpDoc.used = true;
+      await otpDoc.save();
+      // Mark any other older pending login OTPs for this email as used
+      await OTP.updateMany({ email: normalizedEmail, purpose: 'login', used: false }, { used: true });
+      return true;
+    }
+  }
 
-  const isValid = await otpDoc.verifyOTP(candidateOTP);
-  if (!isValid) return false;
-
-  otpDoc.used = true;
-  await otpDoc.save();
-  return true;
+  return false;
 };
 
 module.exports = {

@@ -1,4 +1,5 @@
 const path = require('path');
+require('dotenv').config();
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env.local') });
 
 const REQUIRED_VARS = [

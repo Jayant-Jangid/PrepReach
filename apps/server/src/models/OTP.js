@@ -38,8 +38,8 @@ otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
  * @returns {Promise<string>} plaintext OTP
  */
 otpSchema.statics.createOTP = async function (email, purpose) {
-  // Invalidate any prior unused OTPs for this email+purpose
-  await this.deleteMany({ email: email.toLowerCase(), purpose, used: false });
+  // Clean up any already-expired OTPs for this email+purpose
+  await this.deleteMany({ email: email.toLowerCase(), purpose, expiresAt: { $lt: new Date() } });
 
   const plainOTP = Math.floor(100000 + Math.random() * 900000).toString();
   const salt = await bcrypt.genSalt(10);

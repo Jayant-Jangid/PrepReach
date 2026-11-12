@@ -23,11 +23,27 @@ const app = express();
 // Security headers
 app.use(helmet());
 
-// CORS — allow the client origin and credentials (cookies)
-app.use(cors({
-  origin:      CLIENT_URL,
-  credentials: true,
-}));
+// CORS — allow the client origin(s) and Vercel domains with credentials (cookies)
+const allowedOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map((s) => s.trim())
+  : ['http://localhost:3000'];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('localhost')
+      ) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Origin ${origin} not allowed by CORS`));
+    },
+    credentials: true,
+  })
+);
 
 // HTTP request logger
 app.use(morgan(NODE_ENV === 'production' ? 'combined' : 'dev'));
