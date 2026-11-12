@@ -20,6 +20,9 @@ if (GMAIL_APP_PASSWORD) {
     pool: true,
     maxConnections: 3,
     maxMessages: 100,
+    connectionTimeout: 5000,
+    greetingTimeout: 5000,
+    socketTimeout: 5000,
     auth: {
       user: GMAIL_USER,
       pass: GMAIL_APP_PASSWORD.replace(/\s+/g, ''), // Strip spaces from Google 16-char app password

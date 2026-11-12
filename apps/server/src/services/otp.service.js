@@ -26,7 +26,10 @@ const sendRegistrationOTP = async (email) => {
   console.log(`(Expires in 10 minutes)`);
   console.log(`======================================================\n`);
 
-  await sendOTPEmail(normalizedEmail, plainOTP, 'registration');
+  // Dispatch email concurrently so the HTTP response is never blocked by email provider latency
+  sendOTPEmail(normalizedEmail, plainOTP, 'registration').catch((err) => {
+    console.error(`[Email Delivery Warning for ${normalizedEmail}]:`, err.message);
+  });
 };
 
 /**
@@ -82,7 +85,10 @@ const sendLoginOTP = async (email) => {
   console.log(`(Expires in 10 minutes)`);
   console.log(`======================================================\n`);
 
-  await sendOTPEmail(normalizedEmail, plainOTP, 'login');
+  // Dispatch email concurrently so the HTTP response is never blocked by email provider latency
+  sendOTPEmail(normalizedEmail, plainOTP, 'login').catch((err) => {
+    console.error(`[Email Delivery Warning for ${normalizedEmail}]:`, err.message);
+  });
 };
 
 /**
