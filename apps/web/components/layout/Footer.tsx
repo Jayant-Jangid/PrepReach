@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Shield, CheckCircle2, BookOpen } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 
@@ -21,10 +22,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Info */}
           <div className="space-y-3 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded bg-primary-500 text-white font-bold text-sm">
-                P
-              </div>
+            <Link href="/" className="flex items-center gap-2.5">
+              <Image
+                src="/assets/prepreach_icon.png"
+                alt="PrepReach Logo"
+                width={32}
+                height={32}
+                className="h-8 w-8 object-contain"
+              />
               <span className="text-lg font-bold tracking-tight text-slate-900">
                 Prep<span className="text-accent-500">Reach</span>
               </span>

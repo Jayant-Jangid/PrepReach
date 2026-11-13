@@ -1,4 +1,8 @@
-# PrepReach — Regional Government Exam Bootcamps
+<p align="center">
+  <img src="assets/prepreach_logo.png" width="130" alt="PrepReach Logo" />
+</p>
+
+<h1 align="center">PrepReach — Regional Government Exam Bootcamps</h1>
 
 > **45% Development Benchmark Milestone Reached**  
 > **Tech Stack:** Next.js 14 · Node.js + Express.js · MongoDB

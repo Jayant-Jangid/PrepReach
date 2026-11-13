@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/authStore'
 import Avatar from '@/components/ui/Avatar'
@@ -41,10 +42,15 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded bg-primary-500 text-white font-bold text-sm">
-            P
-          </div>
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <Image
+            src="/assets/prepreach_icon.png"
+            alt="PrepReach Logo"
+            width={32}
+            height={32}
+            className="h-8 w-8 object-contain transition-transform group-hover:scale-105"
+            priority
+          />
           <span className="text-lg font-bold tracking-tight text-slate-900">
             Prep<span className="text-accent-500">Reach</span>
           </span>
